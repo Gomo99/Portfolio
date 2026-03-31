@@ -213,7 +213,16 @@
             background-color: var(--primary); bottom: -5px; left: 0; transition: var(--transition);
         }
         .nav-links a:hover:after { width: 100%; }
-        .mobile-toggle { display: none; font-size: 1.5rem; cursor: pointer; color: var(--text-primary); }
+        .mobile-toggle {
+            display: none;
+            min-width: 44px;
+            min-height: 44px;
+            cursor: pointer;
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            align-items: center;
+            justify-content: center;
+        }
 
         /* Theme Toggle */
         .theme-toggle {
@@ -362,6 +371,19 @@
         .github-username { display: inline-block; margin-top: 1rem; color: var(--primary); font-weight: 600; font-size: 1.1rem; }
         .github-username i { margin-right: 0.5rem; }
 
+        /* Fallback for failed stats images */
+        .github-card .stats-fallback {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            gap: 1rem;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+        .github-card .stats-fallback i { font-size: 2rem; }
+
         /* ===== ⑤ GITHUB CONTRIBUTION GRAPH ===== */
         .github-contrib-section {
             margin-top: 3rem;
@@ -480,9 +502,33 @@
             .hero-content, .hero-image { background: rgba(var(--card-bg-rgb), 0.95); }
         }
         @media (max-width: 768px) {
-            .nav-links { position: fixed; top: 70px; left: 0; width: 100%; background-color: var(--card-bg); flex-direction: column; align-items: center; padding: 2rem 0; box-shadow: 0 10px 15px var(--shadow-color); transform: translateY(-100%); opacity: 0; transition: var(--transition); z-index: 999; border: 1px solid var(--border-color); }
-            .nav-links.active { transform: translateY(0); opacity: 1; }
-            .mobile-toggle { display: block; }
+            .mobile-toggle {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            .nav-links {
+                position: fixed;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                background-color: var(--card-bg);
+                flex-direction: column;
+                align-items: center;
+                padding: 2rem 0;
+                box-shadow: 0 10px 15px var(--shadow-color);
+                transform: translateY(-100%);
+                opacity: 0;
+                transition: var(--transition);
+                z-index: 999;
+                border: 1px solid var(--border-color);
+                pointer-events: none;
+            }
+            .nav-links.active {
+                transform: translateY(0);
+                opacity: 1;
+                pointer-events: auto;
+            }
             .hero { flex-direction: column; text-align: center; padding-top: 8rem; }
             .hero-btns { justify-content: center; }
             .hero-image { margin-top: 3rem; }
@@ -494,7 +540,6 @@
             .controls-hint { display: none; }
             .tech3d-section { min-height: 400px; }
             .nav-links a { padding: 0.8rem 0; display: block; width: 100%; text-align: center; }
-            .mobile-toggle { min-width: 44px; min-height: 44px; display: flex; align-items: center; justify-content: center; }
             .hero-btns .btn { min-height: 50px; display: flex; align-items: center; justify-content: center; }
         }
         .project-info h4, .timeline-content h4, .tech-info h4 { word-wrap: break-word; overflow-wrap: break-word; }
@@ -548,7 +593,7 @@
                         <li><a href="#experience">Experience</a></li>
                         <li><a href="#contact">Contact</a></li>
                     </ul>
-                    <div class="mobile-toggle" id="mobileToggle"><i class="fas fa-bars"></i></div>
+                    <div class="mobile-toggle" id="mobileToggle" aria-label="Menu"><i class="fas fa-bars"></i></div>
                 </nav>
                 <label class="theme-toggle" for="themeToggle" aria-label="Toggle dark/light mode">
                     <input type="checkbox" id="themeToggle">
@@ -570,7 +615,6 @@
         </div>
         <div class="container" style="display: flex; align-items: center; justify-content: space-between;">
             <div class="hero-content">
-                <!-- ② HIRE ME BADGE -->
                 <div class="hire-badge">
                     <span class="dot"></span>
                     Available for Work
@@ -601,7 +645,6 @@
     </section>
 
     <!-- About Section -->
-    <!-- ③ section-animate class added for scroll transitions -->
     <section class="section section-animate" id="about">
         <div class="container">
             <h2 class="section-title">About Me</h2>
@@ -649,7 +692,6 @@
                 </div>
             </div>
 
-            <!-- ⑤ LIVE CONTRIBUTION GRAPH -->
             <div class="github-contrib-section">
                 <h3><i class="fas fa-calendar-alt" style="color: var(--primary); margin-right: 0.5rem;"></i>Contribution Graph</h3>
                 <div class="contrib-graph-wrapper">
@@ -772,11 +814,10 @@
                 <h2 class="section-title">Let's Work Together</h2>
                 <p>I'm open to junior, graduate, or internship opportunities in <strong>frontend or full-stack development</strong>. If you're looking for someone who learns fast and builds with intention, let's talk.</p>
 
-                <!-- ⑥ REAL SOCIAL LINKS -->
                 <div class="social-links">
                     <a href="https://github.com/Gomo99" target="_blank" rel="noopener" class="social-link" title="GitHub"><i class="fab fa-github"></i></a>
-                    <a href="https://www.linkedin.com/in/gomolemo-mogale" target="_blank" rel="noopener" class="social-link" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-                  <a href="https://wa.me/27765817320?text=Hi%20Gomolemo%2C%20I%20saw%20your%20portfolio%20and%20would%20love%20to%20connect!" target="_blank" rel="noopener" class="social-link" title="WhatsApp" style="background-color: rgba(37,211,102,0.1); border-color: rgba(37,211,102,0.3); color: #25D366;"><i class="fab fa-whatsapp"></i></a>
+                    <a href="https://www.linkedin.com/in/gomolemo-mogale-a4b4b81a3/" target="_blank" rel="noopener" class="social-link" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="https://wa.me/27765817320?text=Hi%20Gomolemo%2C%20I%20saw%20your%20portfolio%20and%20would%20love%20to%20connect!" target="_blank" rel="noopener" class="social-link" title="WhatsApp" style="background-color: rgba(37,211,102,0.1); border-color: rgba(37,211,102,0.3); color: #25D366;"><i class="fab fa-whatsapp"></i></a>
                 </div>
 
                 <div class="contact-form">
@@ -799,8 +840,7 @@
     <!-- Back to Top -->
     <button class="back-to-top" id="backToTop" aria-label="Back to top"><i class="fas fa-arrow-up"></i></button>
 
-    <!-- ④ WHATSAPP FLOATING BUTTON -->
-    <!-- 📌 UPDATE: Replace +27000000000 with your real WhatsApp number in international format -->
+    <!-- WhatsApp Floating Button -->
     <a
         href="https://wa.me/27765817320?text=Hi%20Gomolemo%2C%20I%20saw%20your%20portfolio%20and%20would%20love%20to%20connect!"
         target="_blank"
@@ -843,7 +883,6 @@
 
     /* ─────────────────────────────────────
        ③ SECTION SLIDE/FADE TRANSITIONS
-       Uses IntersectionObserver on .section-animate elements
     ───────────────────────────────────── */
     const sectionObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
@@ -946,7 +985,7 @@
     }
 
     /* ─────────────────────────────────────
-       MOBILE
+       MOBILE & UTILITIES
     ───────────────────────────────────── */
     const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
     document.querySelectorAll('#threejs-canvas, #tech3d-canvas').forEach(c => {
@@ -964,6 +1003,10 @@
             this.themeToggle = document.getElementById('themeToggle');
             this.html = document.documentElement;
             this.themeKey = 'portfolio-theme';
+            if (!this.themeToggle) {
+                console.warn('Theme toggle not found');
+                return;
+            }
             this.init();
         }
         init() {
@@ -1007,6 +1050,7 @@
     class ThreeBackground {
         constructor() {
             this.container = document.getElementById('threejs-canvas');
+            if (!this.container) return;
             this.scene = null; this.camera = null; this.renderer = null;
             this.particles = null; this.controls = null; this.clock = new THREE.Clock();
             this.init();
@@ -1061,6 +1105,7 @@
     class Tech3D {
         constructor() {
             this.canvas = document.getElementById('tech3d-canvas');
+            if (!this.canvas) return;
             this.scene = null; this.camera = null; this.renderer = null;
             this.controls = null; this.techGroup = null;
             this.raycaster = new THREE.Raycaster(); this.mouse = new THREE.Vector2();
@@ -1173,9 +1218,33 @@
         updateStats() {
             const dark = document.documentElement.getAttribute('data-theme') === 'dark';
             const th = dark ? 'dark' : 'default';
-            document.getElementById('githubStats').src = `https://github-readme-stats.vercel.app/api?username=${this.username}&show_icons=true&theme=${th}&hide_border=true&bg_color=00000000`;
-            document.getElementById('githubLanguages').src = `https://github-readme-stats.vercel.app/api/top-langs/?username=${this.username}&layout=compact&theme=${th}&hide_border=true&bg_color=00000000&langs_count=6`;
-            document.getElementById('githubStreak').src = `https://github-readme-streak-stats.herokuapp.com/?user=${this.username}&theme=${th}&hide_border=true&background=00000000`;
+            const statsImg = document.getElementById('githubStats');
+            const langsImg = document.getElementById('githubLanguages');
+            const streakImg = document.getElementById('githubStreak');
+
+            const setFallback = (img, label) => {
+                if (!img) return;
+                const fallbackDiv = document.createElement('div');
+                fallbackDiv.className = 'stats-fallback';
+                fallbackDiv.innerHTML = `<i class="fab fa-github"></i><span>Unable to load ${label}</span><small>Please try again later</small>`;
+                img.style.display = 'none';
+                if (!img.parentNode.querySelector('.stats-fallback')) {
+                    img.parentNode.appendChild(fallbackDiv);
+                }
+            };
+
+            if (statsImg) {
+                statsImg.onerror = () => setFallback(statsImg, 'stats');
+                statsImg.src = `https://github-readme-stats.vercel.app/api?username=${this.username}&show_icons=true&theme=${th}&hide_border=true&bg_color=00000000`;
+            }
+            if (langsImg) {
+                langsImg.onerror = () => setFallback(langsImg, 'language stats');
+                langsImg.src = `https://github-readme-stats.vercel.app/api/top-langs/?username=${this.username}&layout=compact&theme=${th}&hide_border=true&bg_color=00000000&langs_count=6`;
+            }
+            if (streakImg) {
+                streakImg.onerror = () => setFallback(streakImg, 'streak stats');
+                streakImg.src = `https://github-readme-streak-stats.herokuapp.com/?user=${this.username}&theme=${th}&hide_border=true&background=00000000`;
+            }
         }
     }
 
@@ -1233,28 +1302,43 @@
 
         const themeManager = new ThemeManager();
 
-        // Init contrib graph with correct theme colour
         updateContribGraph(document.documentElement.getAttribute('data-theme') || 'light');
 
-        const threeBackground = new ThreeBackground();
-        window.threeBackground = threeBackground;
-        const tech3D = new Tech3D();
-        window.tech3D = tech3D;
+        // Safely initialize 3D components
+        try {
+            window.threeBackground = new ThreeBackground();
+        } catch (err) {
+            console.error('ThreeBackground failed:', err);
+        }
+        try {
+            window.tech3D = new Tech3D();
+        } catch (err) {
+            console.error('Tech3D failed:', err);
+        }
+
         new GitHubStats();
         new TypingAnimation();
         new SkillsAnimation();
         new ScrollAnimations();
 
-        // Mobile Nav
+        // Mobile nav
         const mobileToggle = document.getElementById('mobileToggle');
         const navLinks = document.querySelector('.nav-links');
-        mobileToggle.addEventListener('click', () => {
-            navLinks.classList.toggle('active');
-            mobileToggle.innerHTML = navLinks.classList.contains('active') ? '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
-        });
-        document.querySelectorAll('.nav-links a').forEach(a => {
-            a.addEventListener('click', () => { navLinks.classList.remove('active'); mobileToggle.innerHTML = '<i class="fas fa-bars"></i>'; });
-        });
+        if (mobileToggle && navLinks) {
+            mobileToggle.addEventListener('click', () => {
+                navLinks.classList.toggle('active');
+                mobileToggle.innerHTML = navLinks.classList.contains('active') ? '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
+            });
+            // Close menu when a nav link is clicked
+            document.querySelectorAll('.nav-links a').forEach(a => {
+                a.addEventListener('click', () => {
+                    navLinks.classList.remove('active');
+                    mobileToggle.innerHTML = '<i class="fas fa-bars"></i>';
+                });
+            });
+        } else {
+            console.warn('Mobile toggle or nav links not found');
+        }
 
         // Header shrink on scroll
         window.addEventListener('scroll', () => {
@@ -1281,9 +1365,16 @@
                 document.querySelectorAll('.tech-btn').forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
                 const a = btn.dataset.tech;
-                if (['frontend','backend','database','tools'].includes(a)) tech3D.filterTech(a);
-                else if (a === 'auto-rotate') { tech3D.toggleAutoRotate(); btn.textContent = tech3D.autoRotate ? 'Stop Rotation' : 'Auto Rotate'; }
-                else if (a === 'reset') tech3D.resetView();
+                if (['frontend','backend','database','tools'].includes(a)) {
+                    if (window.tech3D) window.tech3D.filterTech(a);
+                } else if (a === 'auto-rotate') {
+                    if (window.tech3D) {
+                        window.tech3D.toggleAutoRotate();
+                        btn.textContent = window.tech3D.autoRotate ? 'Stop Rotation' : 'Auto Rotate';
+                    }
+                } else if (a === 'reset') {
+                    if (window.tech3D) window.tech3D.resetView();
+                }
             });
         });
 
