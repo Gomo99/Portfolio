@@ -1,801 +1,1863 @@
 <!DOCTYPE html>
 <html lang="en" data-print="negative">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, minimum-scale=0.5">
-<title>Gomolemo Mogale — Systems Console</title>
-<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 fill=%220A1628%22/><text x=%2250%22 y=%2264%22 font-size=%2250%22 fill=%224A8FE7%22 text-anchor=%22middle%22 font-family=%22monospace%22>GM</text></svg>" type="image/svg+xml">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-<style>
-/* ============ TOKENS ============ */
-:root{
-  --ink-void:#0A1628; --ink-panel:#0F2244; --ink-panel-2:#122a52;
-  --line-primary:#EAF2FF; --line-secondary:#A9BEDD;
-  --line-blue:#4A8FE7; --line-dim:#22406e;
-  --signal-amber:#FFB627; --signal-green:#3ADC91;
-  --font-display:'Space Grotesk',sans-serif;
-  --font-mono:'IBM Plex Mono',monospace;
-  --font-body:'IBM Plex Sans',sans-serif;
-  --sheet-radius:2px;
-  --grid-size:42px;
-}
-html[data-print="positive"]{
-  --ink-void:#EDEFE4; --ink-panel:#E4E7D9; --ink-panel-2:#dadec8;
-  --line-primary:#122a52; --line-secondary:#3a4f78;
-  --line-blue:#1E4FA3; --line-dim:#c3c9ac;
-  --signal-amber:#9c6b04; --signal-green:#1c8a56;
-}
-*{margin:0;padding:0;box-sizing:border-box;}
-html{scroll-behavior:smooth;}
-body{
-  font-family:var(--font-body);
-  background:var(--ink-void); color:var(--line-secondary);
-  overflow-x:hidden; transition:background .4s ease,color .4s ease;
-  background-image:
-    linear-gradient(var(--line-dim) 1px, transparent 1px),
-    linear-gradient(90deg, var(--line-dim) 1px, transparent 1px);
-  background-size:var(--grid-size) var(--grid-size);
-  background-attachment:fixed;
-}
-h1,h2,h3,h4{font-family:var(--font-display); color:var(--line-primary); font-weight:600; line-height:1.15;}
-p{color:var(--line-secondary); line-height:1.7; font-weight:300;}
-a{color:inherit; text-decoration:none;}
-.container{max-width:1180px; margin:0 auto; padding:0 1.75rem;}
-::selection{background:var(--line-blue); color:var(--ink-void);}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, minimum-scale=0.5">
+    <title>Gomolemo Mogale — Systems Console</title>
+    <link rel="icon"
+    href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 fill=%220A1628%22/><text x=%2250%22 y=%2264%22 font-size=%2250%22 fill=%224A8FE7%22 text-anchor=%22middle%22 font-family=%22monospace%22>GM</text></svg>"
+    type="image/svg+xml">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+    crossorigin="anonymous" referrerpolicy="no-referrer">
+    <link
+    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@300;400;500&display=swap"
+    rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js">
+    </script>
+    <style>
+        /* ============ TOKENS ============ */
+        :root {
+            --ink-void: #0A1628;
+            --ink-panel: #0F2244;
+            --ink-panel-2: #122a52;
+            --line-primary: #EAF2FF;
+            --line-secondary: #A9BEDD;
+            --line-blue: #4A8FE7;
+            --line-dim: #22406e;
+            --signal-amber: #FFB627;
+            --signal-green: #3ADC91;
+            --signal-red: #e05555;
+            --font-display: 'Space Grotesk', sans-serif;
+            --font-mono: 'IBM Plex Mono', monospace;
+            --font-body: 'IBM Plex Sans', sans-serif;
+            --sheet-radius: 2px;
+            --grid-size: 42px;
+        }
+        html[data-print="positive"] {
+            --ink-void: #EDEFE4;
+            --ink-panel: #E4E7D9;
+            --ink-panel-2: #dadec8;
+            --line-primary: #122a52;
+            --line-secondary: #3a4f78;
+            --line-blue: #1E4FA3;
+            --line-dim: #c3c9ac;
+            --signal-amber: #9c6b04;
+            --signal-green: #1c8a56;
+            --signal-red: #c0392b;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            font-family: var(--font-body);
+            background: var(--ink-void);
+            color: var(--line-secondary);
+            overflow-x: hidden;
+            transition: background .4s ease, color .4s ease;
+            background-image:
+                linear-gradient(var(--line-dim) 1px, transparent 1px),
+                linear-gradient(90deg, var(--line-dim) 1px, transparent 1px);
+            background-size: var(--grid-size) var(--grid-size);
+            background-attachment: fixed;
+        }
+        h1,
+        h2,
+        h3,
+        h4 {
+            font-family: var(--font-display);
+            color: var(--line-primary);
+            font-weight: 600;
+            line-height: 1.15;
+        }
+        p {
+            color: var(--line-secondary);
+            line-height: 1.7;
+            font-weight: 300;
+        }
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+        .container {
+            max-width: 1180px;
+            margin: 0 auto;
+            padding: 0 1.75rem;
+        }
+        ::selection {
+            background: var(--line-blue);
+            color: var(--ink-void);
+        }
 
-/* mono utility */
-.mono{font-family:var(--font-mono);}
-.eyebrow{
-  font-family:var(--font-mono); font-size:.72rem; letter-spacing:.14em;
-  text-transform:uppercase; color:var(--line-blue); display:flex; align-items:center; gap:.6rem;
-  margin-bottom:1.1rem;
-}
-.eyebrow::before{content:''; width:22px; height:1px; background:var(--line-blue);}
+        /* mono utility */
+        .mono {
+            font-family: var(--font-mono);
+        }
+        .eyebrow {
+            font-family: var(--font-mono);
+            font-size: .72rem;
+            letter-spacing: .14em;
+            text-transform: uppercase;
+            color: var(--line-blue);
+            display: flex;
+            align-items: center;
+            gap: .6rem;
+            margin-bottom: 1.1rem;
+        }
+        .eyebrow::before {
+            content: '';
+            width: 22px;
+            height: 1px;
+            background: var(--line-blue);
+        }
 
-/* ============ REGISTRATION MARKS / CROSSHAIRS ============ */
-.crosshair{position:absolute; width:22px; height:22px; pointer-events:none; opacity:.55;}
-.crosshair::before,.crosshair::after{content:''; position:absolute; background:var(--line-blue);}
-.crosshair::before{top:50%; left:0; width:100%; height:1px; transform:translateY(-50%);}
-.crosshair::after{left:50%; top:0; height:100%; width:1px; transform:translateX(-50%);}
-.crosshair-circle{position:absolute; inset:2px; border:1px solid var(--line-blue); border-radius:50%;}
-.tl{top:14px; left:14px;} .tr{top:14px; right:14px;} .bl{bottom:14px; left:14px;} .br{bottom:14px; right:14px;}
+        /* ============ FILE PROTOCOL WARNING BANNER ============ */
+        #fileWarning {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 10001;
+            background: #1a1a2e;
+            border-bottom: 2px solid var(--signal-amber);
+            color: #ffd966;
+            font-family: var(--font-mono);
+            font-size: .78rem;
+            padding: .65rem 1.5rem;
+            text-align: center;
+            letter-spacing: .04em;
+        }
+        #fileWarning.visible {
+            display: block;
+        }
+        #fileWarning .fw-close {
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #ffd966;
+            font-size: 1.1rem;
+            border: none;
+            background: none;
+            padding: .3rem .5rem;
+        }
+        #fileWarning .fw-close:hover {
+            color: #fff;
+        }
+        #fileWarning code {
+            background: rgba(255, 255, 255, 0.1);
+            padding: .2rem .5rem;
+            border-radius: 2px;
+            margin: 0 .2rem;
+        }
 
-/* ============ BOOT SEQUENCE ============ */
-#boot{
-  position:fixed; inset:0; background:#060D1A; z-index:10000;
-  display:flex; align-items:center; justify-content:center; flex-direction:column;
-  font-family:var(--font-mono); color:var(--signal-green); padding:2rem;
-  transition:opacity .5s ease, visibility .5s ease;
-}
-#boot.hidden{opacity:0; visibility:hidden; pointer-events:none;}
-#boot-lines{max-width:640px; width:100%; font-size:.85rem; line-height:1.9;}
-#boot-lines .ln{opacity:0;}
-#boot-lines .ln.show{opacity:1;}
-#boot-lines .ok{color:var(--signal-green);}
-#boot-skip{
-  position:absolute; bottom:2rem; right:2rem; font-family:var(--font-mono); font-size:.75rem;
-  color:var(--line-secondary); border:1px solid var(--line-dim); background:transparent;
-  padding:.5rem 1rem; cursor:pointer; letter-spacing:.06em;
-}
-#boot-skip:hover{color:var(--line-primary); border-color:var(--line-blue);}
-.cursor-blink{display:inline-block; width:7px; height:1em; background:var(--signal-green); vertical-align:text-bottom; animation:blink 1s steps(1) infinite;}
-@keyframes blink{50%{opacity:0;}}
+        /* ============ REGISTRATION MARKS / CROSSHAIRS ============ */
+        .crosshair {
+            position: absolute;
+            width: 22px;
+            height: 22px;
+            pointer-events: none;
+            opacity: .55;
+        }
+        .crosshair::before,
+        .crosshair::after {
+            content: '';
+            position: absolute;
+            background: var(--line-blue);
+        }
+        .crosshair::before {
+            top: 50%;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            transform: translateY(-50%);
+        }
+        .crosshair::after {
+            left: 50%;
+            top: 0;
+            height: 100%;
+            width: 1px;
+            transform: translateX(-50%);
+        }
+        .crosshair-circle {
+            position: absolute;
+            inset: 2px;
+            border: 1px solid var(--line-blue);
+            border-radius: 50%;
+        }
+        .tl {
+            top: 14px;
+            left: 14px;
+        }
+        .tr {
+            top: 14px;
+            right: 14px;
+        }
+        .bl {
+            bottom: 14px;
+            left: 14px;
+        }
+        .br {
+            bottom: 14px;
+            right: 14px;
+        }
 
-/* ============ HEADER ============ */
-header{
-  position:fixed; top:0; left:0; width:100%; z-index:900;
-  background:rgba(10,22,40,.88); backdrop-filter:blur(8px);
-  border-bottom:1px solid var(--line-dim); padding:.9rem 0;
-  transition:background .4s ease, border-color .4s ease;
-}
-html[data-print="positive"] header{background:rgba(237,239,228,.9);}
-.header-row{display:flex; align-items:center; justify-content:space-between;}
-.logo{font-family:var(--font-mono); font-weight:700; font-size:1.05rem; color:var(--line-primary); display:flex; align-items:center; gap:.5rem;}
-.logo .dot{width:8px; height:8px; border-radius:50%; background:var(--signal-green); box-shadow:0 0 8px var(--signal-green);}
-.nav-links{display:flex; gap:.4rem; list-style:none;}
-.nav-links a{
-  font-family:var(--font-mono); font-size:.74rem; letter-spacing:.06em; color:var(--line-secondary);
-  padding:.5rem .8rem; border:1px solid transparent; border-radius:var(--sheet-radius); transition:.25s;
-}
-.nav-links a:hover, .nav-links a.active{color:var(--line-primary); border-color:var(--line-dim); background:var(--ink-panel);}
-.header-actions{display:flex; align-items:center; gap:.9rem;}
-.print-toggle{
-  font-family:var(--font-mono); font-size:.68rem; letter-spacing:.06em; cursor:pointer;
-  border:1px solid var(--line-dim); padding:.45rem .7rem; color:var(--line-secondary); background:transparent;
-  display:flex; align-items:center; gap:.4rem;
-}
-.print-toggle:hover{border-color:var(--line-blue); color:var(--line-primary);}
-.mobile-toggle{display:none; font-family:var(--font-mono); font-size:.75rem; border:1px solid var(--line-dim); padding:.5rem .7rem; background:transparent; color:var(--line-primary); cursor:pointer;}
+        /* ============ BOOT SEQUENCE ============ */
+        #boot {
+            position: fixed;
+            inset: 0;
+            background: #060D1A;
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            font-family: var(--font-mono);
+            color: var(--signal-green);
+            padding: 2rem;
+            transition: opacity .5s ease, visibility .5s ease;
+        }
+        #boot.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+        #boot-lines {
+            max-width: 640px;
+            width: 100%;
+            font-size: .85rem;
+            line-height: 1.9;
+        }
+        #boot-lines .ln {
+            opacity: 0;
+        }
+        #boot-lines .ln.show {
+            opacity: 1;
+        }
+        #boot-lines .ok {
+            color: var(--signal-green);
+        }
+        #boot-skip {
+            position: absolute;
+            bottom: 2rem;
+            right: 2rem;
+            font-family: var(--font-mono);
+            font-size: .75rem;
+            color: var(--line-secondary);
+            border: 1px solid var(--line-dim);
+            background: transparent;
+            padding: .5rem 1rem;
+            cursor: pointer;
+            letter-spacing: .06em;
+            z-index: 10001;
+        }
+        #boot-skip:hover {
+            color: var(--line-primary);
+            border-color: var(--line-blue);
+        }
+        .cursor-blink {
+            display: inline-block;
+            width: 7px;
+            height: 1em;
+            background: var(--signal-green);
+            vertical-align: text-bottom;
+            animation: blink 1s steps(1) infinite;
+        }
+        @keyframes blink {
+            50% {
+                opacity: 0;
+            }
+        }
 
-/* ============ HERO ============ */
-.hero{min-height:100vh; display:flex; align-items:center; position:relative; padding:6.5rem 0 3rem;}
-.hero-grid{display:grid; grid-template-columns:1.25fr .85fr; gap:3rem; align-items:center; position:relative; z-index:2;}
-.hero-left .hire-badge{
-  display:inline-flex; align-items:center; gap:.5rem; font-family:var(--font-mono); font-size:.72rem;
-  letter-spacing:.08em; color:var(--signal-green); border:1px solid var(--signal-green); padding:.4rem .9rem;
-  margin-bottom:1.4rem;
-}
-.hire-badge .dot{width:6px; height:6px; border-radius:50%; background:var(--signal-green); animation:pulse-dot 1.6s infinite;}
-@keyframes pulse-dot{0%,100%{box-shadow:0 0 0 0 rgba(58,220,145,.5);}50%{box-shadow:0 0 0 5px rgba(58,220,145,0);}}
-.hero h1{font-size:3.2rem; margin-bottom:.4rem; letter-spacing:-.01em;}
-.hero h1 .accent{color:var(--line-blue);}
-.hero .role-line{font-family:var(--font-mono); font-size:1rem; color:var(--line-blue); margin-bottom:1.6rem; min-height:1.4em;}
-.hero p.lede{font-size:1.05rem; max-width:540px; margin-bottom:2.2rem;}
-.hero-btns{display:flex; gap:1rem; flex-wrap:wrap;}
-.btn-console{
-  font-family:var(--font-mono); font-size:.8rem; letter-spacing:.04em; padding:.85rem 1.4rem;
-  border:1px solid var(--line-blue); color:var(--line-primary); background:transparent; cursor:pointer;
-  transition:.25s; display:inline-flex; align-items:center; gap:.5rem;
-}
-.btn-console:hover{background:var(--line-blue); color:var(--ink-void);}
-.btn-console.filled{background:var(--line-blue); color:var(--ink-void);}
-.btn-console.filled:hover{background:transparent; color:var(--line-primary);}
+        /* ============ HEADER ============ */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 900;
+            background: rgba(10, 22, 40, .88);
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid var(--line-dim);
+            padding: .9rem 0;
+            transition: background .4s ease, border-color .4s ease;
+        }
+        html[data-print="positive"] header {
+            background: rgba(237, 239, 228, .9);
+        }
+        .header-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .logo {
+            font-family: var(--font-mono);
+            font-weight: 700;
+            font-size: 1.05rem;
+            color: var(--line-primary);
+            display: flex;
+            align-items: center;
+            gap: .5rem;
+        }
+        .logo .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--signal-green);
+            box-shadow: 0 0 8px var(--signal-green);
+        }
+        .nav-links {
+            display: flex;
+            gap: .4rem;
+            list-style: none;
+        }
+        .nav-links a {
+            font-family: var(--font-mono);
+            font-size: .74rem;
+            letter-spacing: .06em;
+            color: var(--line-secondary);
+            padding: .5rem .8rem;
+            border: 1px solid transparent;
+            border-radius: var(--sheet-radius);
+            transition: .25s;
+        }
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--line-primary);
+            border-color: var(--line-dim);
+            background: var(--ink-panel);
+        }
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: .9rem;
+        }
+        .print-toggle {
+            font-family: var(--font-mono);
+            font-size: .68rem;
+            letter-spacing: .06em;
+            cursor: pointer;
+            border: 1px solid var(--line-dim);
+            padding: .45rem .7rem;
+            color: var(--line-secondary);
+            background: transparent;
+            display: flex;
+            align-items: center;
+            gap: .4rem;
+            border-radius: var(--sheet-radius);
+        }
+        .print-toggle:hover {
+            border-color: var(--line-blue);
+            color: var(--line-primary);
+        }
+        .mobile-toggle {
+            display: none;
+            font-family: var(--font-mono);
+            font-size: .75rem;
+            border: 1px solid var(--line-dim);
+            padding: .5rem .7rem;
+            background: transparent;
+            color: var(--line-primary);
+            cursor: pointer;
+            border-radius: var(--sheet-radius);
+        }
 
-/* status readout panel */
-.readout{
-  border:1px solid var(--line-dim); background:var(--ink-panel); padding:1.5rem;
-  position:relative;
-}
-.readout::before{content:'SYS.STATUS'; position:absolute; top:-.6em; left:1rem; background:var(--ink-void); padding:0 .5rem; font-family:var(--font-mono); font-size:.65rem; letter-spacing:.1em; color:var(--line-blue);}
-.readout-row{display:flex; justify-content:space-between; font-family:var(--font-mono); font-size:.78rem; padding:.55rem 0; border-bottom:1px dashed var(--line-dim);}
-.readout-row:last-child{border-bottom:none;}
-.readout-row .k{color:var(--line-secondary);}
-.readout-row .v{color:var(--line-primary); font-weight:600;}
-.readout-row .v.online{color:var(--signal-green);}
-.readout-stack{margin-top:1rem; padding-top:1rem; border-top:1px solid var(--line-dim);}
-.stack-pill{display:inline-block; font-family:var(--font-mono); font-size:.68rem; border:1px solid var(--line-dim); color:var(--line-secondary); padding:.3rem .6rem; margin:.2rem .3rem .2rem 0;}
+        /* ============ HERO ============ */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            padding: 6.5rem 0 3rem;
+        }
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1.25fr .85fr;
+            gap: 3rem;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+        .hero-left .hire-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: .5rem;
+            font-family: var(--font-mono);
+            font-size: .72rem;
+            letter-spacing: .08em;
+            color: var(--signal-green);
+            border: 1px solid var(--signal-green);
+            padding: .4rem .9rem;
+            margin-bottom: 1.4rem;
+        }
+        .hire-badge .dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--signal-green);
+            animation: pulse-dot 1.6s infinite;
+        }
+        @keyframes pulse-dot {
+            0%,
+            100% {
+                box-shadow: 0 0 0 0 rgba(58, 220, 145, .5);
+            }
+            50% {
+                box-shadow: 0 0 0 5px rgba(58, 220, 145, 0);
+            }
+        }
+        .hero h1 {
+            font-size: 3.2rem;
+            margin-bottom: .4rem;
+            letter-spacing: -.01em;
+        }
+        .hero h1 .accent {
+            color: var(--line-blue);
+        }
+        .hero .role-line {
+            font-family: var(--font-mono);
+            font-size: 1rem;
+            color: var(--line-blue);
+            margin-bottom: 1.6rem;
+            min-height: 1.4em;
+        }
+        .hero p.lede {
+            font-size: 1.05rem;
+            max-width: 540px;
+            margin-bottom: 2.2rem;
+        }
+        .hero-btns {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        .btn-console {
+            font-family: var(--font-mono);
+            font-size: .8rem;
+            letter-spacing: .04em;
+            padding: .85rem 1.4rem;
+            border: 1px solid var(--line-blue);
+            color: var(--line-primary);
+            background: transparent;
+            cursor: pointer;
+            transition: .25s;
+            display: inline-flex;
+            align-items: center;
+            gap: .5rem;
+            border-radius: var(--sheet-radius);
+        }
+        .btn-console:hover {
+            background: var(--line-blue);
+            color: var(--ink-void);
+        }
+        .btn-console.filled {
+            background: var(--line-blue);
+            color: var(--ink-void);
+        }
+        .btn-console.filled:hover {
+            background: transparent;
+            color: var(--line-primary);
+        }
 
-/* ============ SECTIONS / MODULE HEADERS ============ */
-.section{padding:6rem 0; position:relative; border-top:1px solid var(--line-dim);}
-.module-head{display:flex; align-items:baseline; justify-content:space-between; margin-bottom:3rem; flex-wrap:wrap; gap:1rem;}
-.module-tag{font-family:var(--font-mono); font-size:.7rem; color:var(--line-blue); letter-spacing:.1em;}
-.section-animate{opacity:0; transform:translateY(30px); transition:opacity .7s cubic-bezier(.25,.46,.45,.94), transform .7s cubic-bezier(.25,.46,.45,.94);}
-.section-animate.in-view{opacity:1; transform:translateY(0);}
+        /* status readout panel */
+        .readout {
+            border: 1px solid var(--line-dim);
+            background: var(--ink-panel);
+            padding: 1.5rem;
+            position: relative;
+        }
+        .readout::before {
+            content: 'SYS.STATUS';
+            position: absolute;
+            top: -.6em;
+            left: 1rem;
+            background: var(--ink-void);
+            padding: 0 .5rem;
+            font-family: var(--font-mono);
+            font-size: .65rem;
+            letter-spacing: .1em;
+            color: var(--line-blue);
+        }
+        .readout-row {
+            display: flex;
+            justify-content: space-between;
+            font-family: var(--font-mono);
+            font-size: .78rem;
+            padding: .55rem 0;
+            border-bottom: 1px dashed var(--line-dim);
+        }
+        .readout-row:last-child {
+            border-bottom: none;
+        }
+        .readout-row .k {
+            color: var(--line-secondary);
+        }
+        .readout-row .v {
+            color: var(--line-primary);
+            font-weight: 600;
+        }
+        .readout-row .v.online {
+            color: var(--signal-green);
+        }
+        .readout-stack {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--line-dim);
+        }
+        .stack-pill {
+            display: inline-block;
+            font-family: var(--font-mono);
+            font-size: .68rem;
+            border: 1px solid var(--line-dim);
+            color: var(--line-secondary);
+            padding: .3rem .6rem;
+            margin: .2rem .3rem .2rem 0;
+        }
 
-/* ============ ABOUT / OPERATOR ============ */
-.operator-grid{display:grid; grid-template-columns:.9fr 1.1fr; gap:3.5rem;}
-.spec-block{border:1px solid var(--line-dim); background:var(--ink-panel); padding:1.5rem;}
-.spec-block .spec-row{display:flex; justify-content:space-between; font-family:var(--font-mono); font-size:.78rem; padding:.5rem 0; border-bottom:1px dashed var(--line-dim);}
-.spec-block .spec-row:last-child{border-bottom:none;}
-.skillmeter{margin-bottom:1.15rem;}
-.skillmeter .sm-label{display:flex; justify-content:space-between; font-family:var(--font-mono); font-size:.76rem; margin-bottom:.4rem; color:var(--line-primary);}
-.sm-bar{height:10px; background:var(--line-dim); position:relative; overflow:hidden;}
-.sm-fill{height:100%; background:var(--line-blue); width:0; transition:width 1.4s cubic-bezier(.2,.8,.2,1);}
-.sm-fill.animated{width:var(--w);}
-.sm-bar::after{content:''; position:absolute; inset:0; background:repeating-linear-gradient(90deg, var(--ink-panel) 0 2px, transparent 2px 10%); pointer-events:none;}
+        /* ============ SECTIONS / MODULE HEADERS ============ */
+        .section {
+            padding: 6rem 0;
+            position: relative;
+            border-top: 1px solid var(--line-dim);
+        }
+        .module-head {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        .module-tag {
+            font-family: var(--font-mono);
+            font-size: .7rem;
+            color: var(--line-blue);
+            letter-spacing: .1em;
+        }
+        .section-animate {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity .7s cubic-bezier(.25, .46, .45, .94), transform .7s cubic-bezier(.25, .46, .45, .94);
+        }
+        .section-animate.in-view {
+            opacity: 1;
+            transform: translateY(0);
+        }
 
-/* ============ ARCHITECTURE DIAGRAM ============ */
-.arch-wrap{border:1px solid var(--line-dim); background:var(--ink-panel); padding:2rem; overflow-x:auto;}
-.arch-wrap svg{width:100%; min-width:640px; height:auto; display:block;}
-.arch-box{fill:var(--ink-panel-2); stroke:var(--line-blue); stroke-width:1;}
-.arch-line{stroke:var(--line-dim); stroke-width:1;}
-.arch-line-active{stroke:var(--line-blue); stroke-width:1; stroke-dasharray:4 3;}
-.arch-label{font-family:var(--font-mono); fill:var(--line-primary); font-size:12px;}
-.arch-sub{font-family:var(--font-mono); fill:var(--line-secondary); font-size:9.5px;}
-.arch-dot{fill:var(--line-blue);}
+        /* ============ ABOUT / OPERATOR ============ */
+        .operator-grid {
+            display: grid;
+            grid-template-columns: .9fr 1.1fr;
+            gap: 3.5rem;
+        }
+        .spec-block {
+            border: 1px solid var(--line-dim);
+            background: var(--ink-panel);
+            padding: 1.5rem;
+        }
+        .spec-block .spec-row {
+            display: flex;
+            justify-content: space-between;
+            font-family: var(--font-mono);
+            font-size: .78rem;
+            padding: .5rem 0;
+            border-bottom: 1px dashed var(--line-dim);
+        }
+        .spec-block .spec-row:last-child {
+            border-bottom: none;
+        }
+        .skillmeter {
+            margin-bottom: 1.15rem;
+        }
+        .skillmeter .sm-label {
+            display: flex;
+            justify-content: space-between;
+            font-family: var(--font-mono);
+            font-size: .76rem;
+            margin-bottom: .4rem;
+            color: var(--line-primary);
+        }
+        .sm-bar {
+            height: 10px;
+            background: var(--line-dim);
+            position: relative;
+            overflow: hidden;
+        }
+        .sm-fill {
+            height: 100%;
+            background: var(--line-blue);
+            width: 0;
+            transition: width 1.4s cubic-bezier(.2, .8, .2, 1);
+        }
+        .sm-fill.animated {
+            width: var(--w);
+        }
+        .sm-bar::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: repeating-linear-gradient(90deg, var(--ink-panel) 0 2px, transparent 2px 10%);
+            pointer-events: none;
+        }
 
-/* ============ ACTIVITY LOG / GITHUB ============ */
-.activity-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:1.5rem; margin-bottom:2.5rem;}
-.activity-card{border:1px solid var(--line-dim); background:var(--ink-panel); padding:1rem; text-align:center;}
-.activity-card img{width:100%; height:auto; filter:saturate(.9);}
-.activity-card .cap{font-family:var(--font-mono); font-size:.68rem; color:var(--line-blue); margin-top:.8rem; letter-spacing:.06em;}
-.contrib-wrap{border:1px solid var(--line-dim); background:var(--ink-panel); padding:1.5rem; text-align:center;}
-.contrib-wrap img{max-width:100%;}
+        /* ============ ARCHITECTURE DIAGRAM ============ */
+        .arch-wrap {
+            border: 1px solid var(--line-dim);
+            background: var(--ink-panel);
+            padding: 2rem;
+            overflow-x: auto;
+        }
+        .arch-wrap svg {
+            width: 100%;
+            min-width: 640px;
+            height: auto;
+            display: block;
+        }
+        .arch-box {
+            fill: var(--ink-panel-2);
+            stroke: var(--line-blue);
+            stroke-width: 1;
+        }
+        .arch-line {
+            stroke: var(--line-dim);
+            stroke-width: 1;
+        }
+        .arch-line-active {
+            stroke: var(--line-blue);
+            stroke-width: 1;
+            stroke-dasharray: 4 3;
+        }
+        .arch-label {
+            font-family: var(--font-mono);
+            fill: var(--line-primary);
+            font-size: 12px;
+        }
+        .arch-sub {
+            font-family: var(--font-mono);
+            fill: var(--line-secondary);
+            font-size: 9.5px;
+        }
+        .arch-dot {
+            fill: var(--line-blue);
+        }
 
-/* ============ PROJECT SPEC SHEETS ============ */
-.sheet{border:1px solid var(--line-dim); background:var(--ink-panel); margin-bottom:2rem; position:relative;}
-.sheet-titleblock{display:flex; justify-content:space-between; align-items:flex-start; padding:1.4rem 1.6rem; border-bottom:1px solid var(--line-dim); flex-wrap:wrap; gap:1rem;}
-.sheet-titleblock h3{font-size:1.4rem; margin-bottom:.3rem;}
-.sheet-titleblock .sheet-type{font-family:var(--font-mono); font-size:.7rem; color:var(--line-blue); letter-spacing:.08em;}
-.sheet-status{font-family:var(--font-mono); font-size:.68rem; border:1px solid var(--signal-green); color:var(--signal-green); padding:.35rem .7rem; height:fit-content; letter-spacing:.06em;}
-.sheet-body{padding:1.6rem; display:grid; grid-template-columns:1.4fr 1fr; gap:2rem;}
-.sheet-body p{font-size:.95rem;}
-.sheet-tags{display:flex; flex-wrap:wrap; gap:.5rem; margin-top:1rem;}
-.sheet-tags span{font-family:var(--font-mono); font-size:.68rem; border:1px solid var(--line-dim); color:var(--line-secondary); padding:.3rem .6rem;}
-.sheet-specs .spec-row{display:flex; justify-content:space-between; font-family:var(--font-mono); font-size:.74rem; padding:.55rem 0; border-bottom:1px dashed var(--line-dim);}
-.sheet-specs .spec-row:last-child{border-bottom:none;}
-.sheet-specs .k{color:var(--line-secondary);}
-.sheet-specs .v{color:var(--line-primary); text-align:right;}
+        /* ============ ACTIVITY LOG / GITHUB ============ */
+        .activity-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
+        }
+        .activity-card {
+            border: 1px solid var(--line-dim);
+            background: var(--ink-panel);
+            padding: 1rem;
+            text-align: center;
+            min-height: 180px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        .activity-card img {
+            width: 100%;
+            height: auto;
+            max-height: 150px;
+            object-fit: contain;
+        }
+        .activity-card .cap {
+            font-family: var(--font-mono);
+            font-size: .68rem;
+            color: var(--line-blue);
+            margin-top: .8rem;
+            letter-spacing: .06em;
+        }
+        .activity-card .stats-placeholder {
+            display: none;
+            width: 100%;
+            padding: 1.5rem 1rem;
+            text-align: center;
+            border: 1px dashed var(--line-dim);
+            border-radius: 2px;
+            font-family: var(--font-mono);
+            font-size: .7rem;
+            color: var(--line-secondary);
+            letter-spacing: .04em;
+            background: var(--ink-panel-2);
+        }
+        .activity-card .stats-placeholder.visible {
+            display: block;
+        }
+        .activity-card .stats-placeholder i {
+            font-size: 1.6rem;
+            color: var(--line-blue);
+            margin-bottom: .6rem;
+            display: block;
+        }
+        .activity-card .stats-placeholder a {
+            color: var(--line-blue);
+            text-decoration: underline;
+            font-weight: 600;
+        }
+        .contrib-wrap {
+            border: 1px solid var(--line-dim);
+            background: var(--ink-panel);
+            padding: 1.5rem;
+            text-align: center;
+            min-height: 100px;
+        }
+        .contrib-wrap img {
+            max-width: 100%;
+        }
+        .contrib-fallback {
+            display: none;
+            font-family: var(--font-mono);
+            font-size: .78rem;
+            padding: 2rem;
+        }
+        .contrib-fallback.visible {
+            display: block;
+        }
+        .contrib-fallback a {
+            color: var(--line-blue);
+            text-decoration: underline;
+        }
 
-/* ============ OPERATIONAL LOG (EXPERIENCE) ============ */
-.log{max-width:820px; margin:0 auto;}
-.log-entry{display:grid; grid-template-columns:150px 1fr; gap:1.5rem; padding:1.4rem 0; border-bottom:1px solid var(--line-dim);}
-.log-entry:first-child{padding-top:0;}
-.log-time{font-family:var(--font-mono); font-size:.75rem; color:var(--line-blue);}
-.log-entry h4{font-size:1.15rem; margin-bottom:.3rem;}
-.log-entry .log-role{font-family:var(--font-mono); font-size:.72rem; color:var(--line-secondary); margin-bottom:.6rem; display:block;}
-.log-entry p{font-size:.92rem; margin-bottom:0;}
-.log-prompt{color:var(--signal-green);}
+        /* ============ PROJECT SPEC SHEETS ============ */
+        .sheet {
+            border: 1px solid var(--line-dim);
+            background: var(--ink-panel);
+            margin-bottom: 2rem;
+            position: relative;
+        }
+        .sheet-titleblock {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding: 1.4rem 1.6rem;
+            border-bottom: 1px solid var(--line-dim);
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        .sheet-titleblock h3 {
+            font-size: 1.4rem;
+            margin-bottom: .3rem;
+        }
+        .sheet-titleblock .sheet-type {
+            font-family: var(--font-mono);
+            font-size: .7rem;
+            color: var(--line-blue);
+            letter-spacing: .08em;
+        }
+        .sheet-status {
+            font-family: var(--font-mono);
+            font-size: .68rem;
+            border: 1px solid var(--signal-green);
+            color: var(--signal-green);
+            padding: .35rem .7rem;
+            height: fit-content;
+            letter-spacing: .06em;
+        }
+        .sheet-body {
+            padding: 1.6rem;
+            display: grid;
+            grid-template-columns: 1.4fr 1fr;
+            gap: 2rem;
+        }
+        .sheet-body p {
+            font-size: .95rem;
+        }
+        .sheet-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: .5rem;
+            margin-top: 1rem;
+        }
+        .sheet-tags span {
+            font-family: var(--font-mono);
+            font-size: .68rem;
+            border: 1px solid var(--line-dim);
+            color: var(--line-secondary);
+            padding: .3rem .6rem;
+        }
+        .sheet-specs .spec-row {
+            display: flex;
+            justify-content: space-between;
+            font-family: var(--font-mono);
+            font-size: .74rem;
+            padding: .55rem 0;
+            border-bottom: 1px dashed var(--line-dim);
+        }
+        .sheet-specs .spec-row:last-child {
+            border-bottom: none;
+        }
+        .sheet-specs .k {
+            color: var(--line-secondary);
+        }
+        .sheet-specs .v {
+            color: var(--line-primary);
+            text-align: right;
+        }
 
-/* ============ UPLINK / CONTACT ============ */
-.uplink-grid{display:grid; grid-template-columns:.9fr 1.1fr; gap:3rem; align-items:start;}
-.uplink-panel{border:1px solid var(--line-dim); background:var(--ink-panel); padding:1.75rem;}
-.channel-row{display:flex; align-items:center; gap:.9rem; padding:.9rem 0; border-bottom:1px dashed var(--line-dim);}
-.channel-row:last-child{border-bottom:none;}
-.channel-row i{width:20px; text-align:center; color:var(--line-blue);}
-.channel-row a{font-family:var(--font-mono); font-size:.82rem; color:var(--line-primary);}
-.channel-row a:hover{color:var(--line-blue);}
-.form-group{margin-bottom:1.2rem;}
-.form-group label{display:block; font-family:var(--font-mono); font-size:.7rem; color:var(--line-blue); margin-bottom:.4rem; letter-spacing:.06em;}
-.form-group label::before{content:'$ ';}
-.form-control{
-  width:100%; padding:.8rem 1rem; background:var(--ink-void); border:1px solid var(--line-dim);
-  color:var(--line-primary); font-family:var(--font-mono); font-size:.85rem;
-}
-.form-control:focus{outline:none; border-color:var(--line-blue);}
-textarea.form-control{min-height:130px; resize:vertical;}
-.status-message{padding:.9rem 1rem; margin-bottom:1rem; display:none; align-items:center; gap:.7rem; font-family:var(--font-mono); font-size:.78rem; border:1px solid;}
-.status-message.visible{display:flex;}
-.status-message.success{border-color:var(--signal-green); color:var(--signal-green);}
-.status-message.error{border-color:#e05555; color:#e88;}
-.spinner{width:14px; height:14px; border:2px solid rgba(255,255,255,.25); border-top-color:currentColor; border-radius:50%; animation:spin 1s linear infinite;}
-@keyframes spin{to{transform:rotate(360deg);}}
+        /* ============ OPERATIONAL LOG (EXPERIENCE) ============ */
+        .log {
+            max-width: 820px;
+            margin: 0 auto;
+        }
+        .log-entry {
+            display: grid;
+            grid-template-columns: 150px 1fr;
+            gap: 1.5rem;
+            padding: 1.4rem 0;
+            border-bottom: 1px solid var(--line-dim);
+        }
+        .log-entry:first-child {
+            padding-top: 0;
+        }
+        .log-time {
+            font-family: var(--font-mono);
+            font-size: .75rem;
+            color: var(--line-blue);
+        }
+        .log-entry h4 {
+            font-size: 1.15rem;
+            margin-bottom: .3rem;
+        }
+        .log-entry .log-role {
+            font-family: var(--font-mono);
+            font-size: .72rem;
+            color: var(--line-secondary);
+            margin-bottom: .6rem;
+            display: block;
+        }
+        .log-entry p {
+            font-size: .92rem;
+            margin-bottom: 0;
+        }
+        .log-prompt {
+            color: var(--signal-green);
+        }
 
-/* ============ TITLE BLOCK FOOTER ============ */
-footer{border-top:1px solid var(--line-dim); padding:2.5rem 0; background:var(--ink-panel);}
-.titleblock-grid{display:grid; grid-template-columns:repeat(4,1fr); font-family:var(--font-mono); font-size:.7rem; color:var(--line-secondary); border:1px solid var(--line-dim);}
-.titleblock-grid > div{padding:.9rem 1rem; border-right:1px solid var(--line-dim);}
-.titleblock-grid > div:last-child{border-right:none;}
-.titleblock-grid .lbl{display:block; color:var(--line-blue); margin-bottom:.3rem; font-size:.62rem; letter-spacing:.08em;}
-.titleblock-grid .val{color:var(--line-primary);}
-footer .copy{text-align:center; margin-top:1.5rem; font-family:var(--font-mono); font-size:.72rem;}
-footer a{color:var(--line-blue);}
+        /* ============ UPLINK / CONTACT ============ */
+        .uplink-grid {
+            display: grid;
+            grid-template-columns: .9fr 1.1fr;
+            gap: 3rem;
+            align-items: start;
+        }
+        .uplink-panel {
+            border: 1px solid var(--line-dim);
+            background: var(--ink-panel);
+            padding: 1.75rem;
+        }
+        .channel-row {
+            display: flex;
+            align-items: center;
+            gap: .9rem;
+            padding: .9rem 0;
+            border-bottom: 1px dashed var(--line-dim);
+        }
+        .channel-row:last-child {
+            border-bottom: none;
+        }
+        .channel-row i {
+            width: 20px;
+            text-align: center;
+            color: var(--line-blue);
+        }
+        .channel-row a {
+            font-family: var(--font-mono);
+            font-size: .82rem;
+            color: var(--line-primary);
+        }
+        .channel-row a:hover {
+            color: var(--line-blue);
+        }
+        .form-group {
+            margin-bottom: 1.2rem;
+        }
+        .form-group label {
+            display: block;
+            font-family: var(--font-mono);
+            font-size: .7rem;
+            color: var(--line-blue);
+            margin-bottom: .4rem;
+            letter-spacing: .06em;
+        }
+        .form-group label::before {
+            content: '$ ';
+        }
+        .form-control {
+            width: 100%;
+            padding: .8rem 1rem;
+            background: var(--ink-void);
+            border: 1px solid var(--line-dim);
+            color: var(--line-primary);
+            font-family: var(--font-mono);
+            font-size: .85rem;
+        }
+        .form-control:focus {
+            outline: none;
+            border-color: var(--line-blue);
+        }
+        textarea.form-control {
+            min-height: 130px;
+            resize: vertical;
+        }
+        .status-message {
+            padding: .9rem 1rem;
+            margin-bottom: 1rem;
+            display: none;
+            align-items: center;
+            gap: .7rem;
+            font-family: var(--font-mono);
+            font-size: .78rem;
+            border: 1px solid;
+        }
+        .status-message.visible {
+            display: flex;
+        }
+        .status-message.success {
+            border-color: var(--signal-green);
+            color: var(--signal-green);
+        }
+        .status-message.error {
+            border-color: var(--signal-red);
+            color: var(--signal-red);
+        }
+        .spinner {
+            width: 14px;
+            height: 14px;
+            border: 2px solid rgba(255, 255, 255, .25);
+            border-top-color: currentColor;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
 
-/* ============ FLOATING ELEMENTS ============ */
-.back-to-top{
-  position:fixed; bottom:26px; right:26px; width:46px; height:46px; background:var(--ink-panel);
-  border:1px solid var(--line-blue); color:var(--line-blue); display:flex; align-items:center; justify-content:center;
-  cursor:pointer; z-index:800; opacity:0; visibility:hidden; transform:translateY(15px); transition:.3s;
-}
-.back-to-top.visible{opacity:1; visibility:visible; transform:translateY(0);}
-.back-to-top:hover{background:var(--line-blue); color:var(--ink-void);}
-.whatsapp-float{
-  position:fixed; bottom:82px; right:26px; width:46px; height:46px; background:var(--ink-panel);
-  border:1px solid var(--signal-green); color:var(--signal-green); border-radius:50%;
-  display:flex; align-items:center; justify-content:center; font-size:1.2rem; z-index:790; transition:.3s;
-}
-.whatsapp-float:hover{background:var(--signal-green); color:var(--ink-void); transform:translateY(-3px);}
+        /* ============ TITLE BLOCK FOOTER ============ */
+        footer {
+            border-top: 1px solid var(--line-dim);
+            padding: 2.5rem 0;
+            background: var(--ink-panel);
+        }
+        .titleblock-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            font-family: var(--font-mono);
+            font-size: .7rem;
+            color: var(--line-secondary);
+            border: 1px solid var(--line-dim);
+        }
+        .titleblock-grid>div {
+            padding: .9rem 1rem;
+            border-right: 1px solid var(--line-dim);
+        }
+        .titleblock-grid>div:last-child {
+            border-right: none;
+        }
+        .titleblock-grid .lbl {
+            display: block;
+            color: var(--line-blue);
+            margin-bottom: .3rem;
+            font-size: .62rem;
+            letter-spacing: .08em;
+        }
+        .titleblock-grid .val {
+            color: var(--line-primary);
+        }
+        footer .copy {
+            text-align: center;
+            margin-top: 1.5rem;
+            font-family: var(--font-mono);
+            font-size: .72rem;
+        }
+        footer a {
+            color: var(--line-blue);
+        }
 
-/* ============ RESPONSIVE ============ */
-@media (max-width:992px){
-  .hero-grid{grid-template-columns:1fr;}
-  .operator-grid{grid-template-columns:1fr; gap:2rem;}
-  .sheet-body{grid-template-columns:1fr;}
-  .activity-grid{grid-template-columns:1fr;}
-  .nav-links{display:none;}
-  .mobile-toggle{display:block;}
-  .titleblock-grid{grid-template-columns:1fr 1fr;}
-  .titleblock-grid > div{border-bottom:1px solid var(--line-dim);}
-}
-@media (max-width:768px){
-  .hero h1{font-size:2.3rem;}
-  .uplink-grid{grid-template-columns:1fr;}
-  .log-entry{grid-template-columns:1fr; gap:.4rem;}
-  nav.mobile-nav-open .nav-links{
-    display:flex; flex-direction:column; position:fixed; top:64px; left:0; width:100%;
-    background:var(--ink-void); border-bottom:1px solid var(--line-dim); padding:1rem; z-index:895;
-  }
-}
-@media (max-width:576px){
-  .hero h1{font-size:1.9rem;}
-  .section{padding:4rem 0;}
-}
-@media (prefers-reduced-motion: reduce){
-  *{animation-duration:.01ms !important; transition-duration:.01ms !important;}
-}
-</style>
+        /* ============ FLOATING ELEMENTS ============ */
+        .back-to-top {
+            position: fixed;
+            bottom: 26px;
+            right: 26px;
+            width: 46px;
+            height: 46px;
+            background: var(--ink-panel);
+            border: 1px solid var(--line-blue);
+            color: var(--line-blue);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 800;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(15px);
+            transition: .3s;
+            border-radius: var(--sheet-radius);
+        }
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        .back-to-top:hover {
+            background: var(--line-blue);
+            color: var(--ink-void);
+        }
+        .whatsapp-float {
+            position: fixed;
+            bottom: 82px;
+            right: 26px;
+            width: 46px;
+            height: 46px;
+            background: var(--ink-panel);
+            border: 1px solid var(--signal-green);
+            color: var(--signal-green);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            z-index: 790;
+            transition: .3s;
+        }
+        .whatsapp-float:hover {
+            background: var(--signal-green);
+            color: var(--ink-void);
+            transform: translateY(-3px);
+        }
+
+        /* ============ RESPONSIVE ============ */
+        @media (max-width:992px) {
+            .hero-grid {
+                grid-template-columns: 1fr;
+            }
+            .operator-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            .sheet-body {
+                grid-template-columns: 1fr;
+            }
+            .activity-grid {
+                grid-template-columns: 1fr;
+            }
+            .nav-links {
+                display: none;
+            }
+            .mobile-toggle {
+                display: block;
+            }
+            .titleblock-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            .titleblock-grid>div {
+                border-bottom: 1px solid var(--line-dim);
+            }
+        }
+        @media (max-width:768px) {
+            .hero h1 {
+                font-size: 2.3rem;
+            }
+            .uplink-grid {
+                grid-template-columns: 1fr;
+            }
+            .log-entry {
+                grid-template-columns: 1fr;
+                gap: .4rem;
+            }
+            nav.mobile-nav-open .nav-links {
+                display: flex;
+                flex-direction: column;
+                position: fixed;
+                top: 64px;
+                left: 0;
+                width: 100%;
+                background: var(--ink-void);
+                border-bottom: 1px solid var(--line-dim);
+                padding: 1rem;
+                z-index: 895;
+            }
+        }
+        @media (max-width:576px) {
+            .hero h1 {
+                font-size: 1.9rem;
+            }
+            .section {
+                padding: 4rem 0;
+            }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: .01ms !important;
+                transition-duration: .01ms !important;
+            }
+        }
+    </style>
 </head>
 <body>
 
-<!-- BOOT SEQUENCE -->
-<div id="boot">
-  <div id="boot-lines"></div>
-  <button id="boot-skip">SKIP [ESC]</button>
-</div>
-
-<!-- HEADER -->
-<header id="header">
-  <div class="container header-row">
-    <a href="#home" class="logo"><span class="dot"></span> GM://SYS</a>
-    <nav id="mainNav">
-      <ul class="nav-links">
-        <li><a href="#home">00_BOOT</a></li>
-        <li><a href="#operator">01_OPERATOR</a></li>
-        <li><a href="#architecture">02_ARCHITECTURE</a></li>
-        <li><a href="#systems">03_SYSTEMS</a></li>
-        <li><a href="#log">04_LOG</a></li>
-        <li><a href="#uplink">05_UPLINK</a></li>
-      </ul>
-    </nav>
-    <div class="header-actions">
-      <button class="print-toggle" id="printToggle" title="Toggle print mode"><i class="fas fa-adjust"></i> <span id="printLabel">NEGATIVE</span></button>
-      <button class="mobile-toggle" id="mobileToggle">[ MENU ]</button>
+    <!-- FILE PROTOCOL WARNING -->
+    <div id="fileWarning">
+        ⚠ This page is running from <code>file://</code> — some features may be limited.
+        Use a local server: <code>npx serve .</code> or <code>python -m http.server 8080</code>
+        <button class="fw-close" id="fwClose" aria-label="Dismiss">&times;</button>
     </div>
-  </div>
-</header>
 
-<!-- HERO -->
-<section class="hero" id="home">
-  <div class="crosshair tl"><div class="crosshair-circle"></div></div>
-  <div class="crosshair tr"><div class="crosshair-circle"></div></div>
-  <div class="crosshair bl"><div class="crosshair-circle"></div></div>
-  <div class="crosshair br"><div class="crosshair-circle"></div></div>
-  <div class="container hero-grid">
-    <div class="hero-left">
-      <div class="hire-badge"><span class="dot"></span> AVAILABLE FOR GRADUATE / INTERN ROLES</div>
-      <h1>Gomolemo <span class="accent">Mogale</span></h1>
-      <div class="role-line" id="roleLine">&gt; full-stack systems engineer<span class="cursor-blink"></span></div>
-      <p class="lede">I design and ship role-based enterprise systems &mdash; the kind with real access control, audit trails, and notification pipelines &mdash; on React and ASP.NET Core / C#. Off the clock I build algorithmic trading systems in Pine Script and Python.</p>
-      <div class="hero-btns">
-        <a href="#systems" class="btn-console filled">VIEW_DEPLOYED_SYSTEMS &rarr;</a>
-        <a href="#uplink" class="btn-console">OPEN_UPLINK</a>
-      </div>
+    <!-- BOOT SEQUENCE -->
+    <div id="boot">
+        <div id="boot-lines"></div>
+        <button id="boot-skip">SKIP [ESC]</button>
     </div>
-    <div class="hero-right">
-      <div class="readout">
-        <div class="readout-row"><span class="k">OPERATOR</span><span class="v">G. Mogale</span></div>
-        <div class="readout-row"><span class="k">BASE</span><span class="v">Pretoria, ZA</span></div>
-        <div class="readout-row"><span class="k">TRACK</span><span class="v">Full-Stack Dev, NMU</span></div>
-        <div class="readout-row"><span class="k">STATUS</span><span class="v online">OPERATIONAL</span></div>
-        <div class="readout-stack">
-          <span class="mono" style="font-size:.68rem; color:var(--line-blue); letter-spacing:.08em;">ACTIVE_STACK</span><br>
-          <div style="margin-top:.6rem;">
-            <span class="stack-pill">React</span><span class="stack-pill">ASP.NET Core</span><span class="stack-pill">C#</span>
-            <span class="stack-pill">EF Core</span><span class="stack-pill">SQL Server</span><span class="stack-pill">Python</span>
-            <span class="stack-pill">Pine Script</span>
-          </div>
+
+    <!-- HEADER -->
+    <header id="header">
+        <div class="container header-row">
+            <a href="#home" class="logo"><span class="dot"></span> GM://SYS</a>
+            <nav id="mainNav">
+                <ul class="nav-links">
+                    <li><a href="#home">00_BOOT</a></li>
+                    <li><a href="#operator">01_OPERATOR</a></li>
+                    <li><a href="#architecture">02_ARCHITECTURE</a></li>
+                    <li><a href="#systems">03_SYSTEMS</a></li>
+                    <li><a href="#log">04_LOG</a></li>
+                    <li><a href="#uplink">05_UPLINK</a></li>
+                </ul>
+            </nav>
+            <div class="header-actions">
+                <button class="print-toggle" id="printToggle" title="Toggle print mode"><i class="fas fa-adjust"></i>
+                    <span id="printLabel">NEGATIVE</span></button>
+                <button class="mobile-toggle" id="mobileToggle">[ MENU ]</button>
+            </div>
         </div>
-      </div>
-    </div>
-  </div>
-</section>
+    </header>
 
-<!-- MODULE 01: OPERATOR / ABOUT -->
-<section class="section section-animate" id="operator">
-  <div class="container">
-    <div class="module-head">
-      <div><span class="module-tag">MODULE_01</span><h2>Operator Profile</h2></div>
-      <span class="eyebrow" style="margin:0;">SHEET 01 / 06</span>
-    </div>
-    <div class="operator-grid">
-      <div>
-        <div class="spec-block">
-          <div class="spec-row"><span>DESIGNATION</span><span>Full-Stack Developer</span></div>
-          <div class="spec-row"><span>INSTITUTION</span><span>Nelson Mandela University</span></div>
-          <div class="spec-row"><span>LOCATION</span><span>Pretoria, South Africa</span></div>
-          <div class="spec-row"><span>SPECIALTY</span><span>Role-based enterprise systems</span></div>
-          <div class="spec-row"><span>SIDE PROJECT</span><span>SMC algorithmic trading (Pine Script / Python)</span></div>
+    <!-- HERO -->
+    <section class="hero" id="home">
+        <div class="crosshair tl"><div class="crosshair-circle"></div></div>
+        <div class="crosshair tr"><div class="crosshair-circle"></div></div>
+        <div class="crosshair bl"><div class="crosshair-circle"></div></div>
+        <div class="crosshair br"><div class="crosshair-circle"></div></div>
+        <div class="container hero-grid">
+            <div class="hero-left">
+                <div class="hire-badge"><span class="dot"></span> AVAILABLE FOR GRADUATE / INTERN ROLES</div>
+                <h1>Gomolemo <span class="accent">Mogale</span></h1>
+                <div class="role-line" id="roleLine">&gt; full-stack systems engineer<span class="cursor-blink"></span></div>
+                <p class="lede">I design and ship role-based enterprise systems — the kind with real access control,
+                    audit trails, and notification pipelines — on React and ASP.NET Core / C#. Off the clock I build
+                algorithmic trading systems in Pine Script and Python.</p>
+                <div class="hero-btns">
+                    <a href="#systems" class="btn-console filled">VIEW_DEPLOYED_SYSTEMS →</a>
+                    <a href="#uplink" class="btn-console">OPEN_UPLINK</a>
+                </div>
+            </div>
+            <div class="hero-right">
+                <div class="readout">
+                    <div class="readout-row"><span class="k">OPERATOR</span><span class="v">G. Mogale</span></div>
+                    <div class="readout-row"><span class="k">BASE</span><span class="v">Pretoria, ZA</span></div>
+                    <div class="readout-row"><span class="k">TRACK</span><span class="v">Full-Stack Dev, NMU</span></div>
+                    <div class="readout-row"><span class="k">STATUS</span><span class="v online">OPERATIONAL</span></div>
+                    <div class="readout-stack">
+                        <span class="mono"
+                        style="font-size:.68rem; color:var(--line-blue); letter-spacing:.08em;">ACTIVE_STACK</span><br>
+                        <div style="margin-top:.6rem;">
+                            <span class="stack-pill">React</span><span class="stack-pill">ASP.NET Core</span><span
+                            class="stack-pill">C#</span>
+                            <span class="stack-pill">EF Core</span><span class="stack-pill">SQL Server</span><span
+                            class="stack-pill">Python</span>
+                            <span class="stack-pill">Pine Script</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <p style="margin-top:1.5rem;">I like systems with moving parts &mdash; multi-role authorization, notification services, soft-delete audit chains, PDF generation pipelines. Most of my coursework projects are built as if they'll actually run in production: proper validation, referential integrity, and UI that doesn't look like a tutorial.</p>
-      </div>
-      <div>
-        <div class="skillmeter"><div class="sm-label"><span>C# / ASP.NET Core</span><span>90%</span></div><div class="sm-bar"><div class="sm-fill" style="--w:90%"></div></div></div>
-        <div class="skillmeter"><div class="sm-label"><span>Entity Framework Core</span><span>85%</span></div><div class="sm-bar"><div class="sm-fill" style="--w:85%"></div></div></div>
-        <div class="skillmeter"><div class="sm-label"><span>SQL Server</span><span>82%</span></div><div class="sm-bar"><div class="sm-fill" style="--w:82%"></div></div></div>
-        <div class="skillmeter"><div class="sm-label"><span>React / JavaScript</span><span>78%</span></div><div class="sm-bar"><div class="sm-fill" style="--w:78%"></div></div></div>
-        <div class="skillmeter"><div class="sm-label"><span>Python</span><span>75%</span></div><div class="sm-bar"><div class="sm-fill" style="--w:75%"></div></div></div>
-        <div class="skillmeter"><div class="sm-label"><span>Pine Script (TradingView)</span><span>80%</span></div><div class="sm-bar"><div class="sm-fill" style="--w:80%"></div></div></div>
-      </div>
-    </div>
-  </div>
-</section>
+    </section>
 
-<!-- MODULE 02: ARCHITECTURE -->
-<section class="section section-animate" id="architecture">
-  <div class="container">
-    <div class="module-head">
-      <div><span class="module-tag">MODULE_02</span><h2>System Architecture</h2></div>
-      <span class="eyebrow" style="margin:0;">SHEET 02 / 06</span>
-    </div>
-    <p style="max-width:640px; margin-bottom:2rem;">The layered pattern I default to for enterprise coursework, plus the parallel track I run for trading systems.</p>
-    <div class="arch-wrap">
-      <svg viewBox="0 0 900 300" xmlns="http://www.w3.org/2000/svg">
-        <!-- client -->
-        <rect class="arch-box" x="40" y="30" width="200" height="60"/>
-        <text class="arch-label" x="140" y="55" text-anchor="middle">CLIENT LAYER</text>
-        <text class="arch-sub" x="140" y="75" text-anchor="middle">React / Razor Views</text>
-        <!-- api -->
-        <rect class="arch-box" x="40" y="120" width="200" height="60"/>
-        <text class="arch-label" x="140" y="145" text-anchor="middle">API / MVC LAYER</text>
-        <text class="arch-sub" x="140" y="165" text-anchor="middle">ASP.NET Core, C#</text>
-        <!-- data -->
-        <rect class="arch-box" x="40" y="210" width="200" height="60"/>
-        <text class="arch-label" x="140" y="235" text-anchor="middle">DATA LAYER</text>
-        <text class="arch-sub" x="140" y="255" text-anchor="middle">EF Core / SQL Server</text>
-        <!-- connecting lines -->
-        <line class="arch-line" x1="140" y1="90" x2="140" y2="120"/>
-        <line class="arch-line" x1="140" y1="180" x2="140" y2="210"/>
-        <circle class="arch-dot" cx="140" cy="90" r="3"/>
-        <circle class="arch-dot" cx="140" cy="180" r="3"/>
-        <!-- cross services -->
-        <rect class="arch-box" x="320" y="75" width="200" height="60"/>
-        <text class="arch-label" x="420" y="100" text-anchor="middle">NOTIFICATIONS</text>
-        <text class="arch-sub" x="420" y="120" text-anchor="middle">SignalR / polling bell</text>
-        <rect class="arch-box" x="320" y="165" width="200" height="60"/>
-        <text class="arch-label" x="420" y="190" text-anchor="middle">RBAC / AUTH</text>
-        <text class="arch-sub" x="420" y="210" text-anchor="middle">Multi-role authorization</text>
-        <line class="arch-line-active" x1="240" y1="105" x2="320" y2="105"/>
-        <line class="arch-line-active" x1="240" y1="195" x2="320" y2="195"/>
-        <!-- trading track -->
-        <rect class="arch-box" x="600" y="30" width="240" height="60"/>
-        <text class="arch-label" x="720" y="55" text-anchor="middle">MARKET DATA</text>
-        <text class="arch-sub" x="720" y="75" text-anchor="middle">MetaTrader 5 feed</text>
-        <rect class="arch-box" x="600" y="120" width="240" height="60"/>
-        <text class="arch-label" x="720" y="145" text-anchor="middle">SMC STATE MACHINE</text>
-        <text class="arch-sub" x="720" y="165" text-anchor="middle">Compression / Manipulation / Distribution</text>
-        <rect class="arch-box" x="600" y="210" width="240" height="60"/>
-        <text class="arch-label" x="720" y="235" text-anchor="middle">EXECUTION</text>
-        <text class="arch-sub" x="720" y="255" text-anchor="middle">Python bot, PyQt5 dashboard</text>
-        <line class="arch-line" x1="720" y1="90" x2="720" y2="120"/>
-        <line class="arch-line" x1="720" y1="180" x2="720" y2="210"/>
-        <circle class="arch-dot" cx="720" cy="90" r="3"/>
-        <circle class="arch-dot" cx="720" cy="180" r="3"/>
-        <text class="arch-sub" x="450" y="285" text-anchor="middle" style="letter-spacing:.08em;">FIG. 02 — DUAL TRACK: ENTERPRISE SYSTEMS (LEFT) / ALGORITHMIC TRADING (RIGHT)</text>
-      </svg>
-    </div>
+    <!-- MODULE 01: OPERATOR / ABOUT -->
+    <section class="section section-animate" id="operator">
+        <div class="container">
+            <div class="module-head">
+                <div><span class="module-tag">MODULE_01</span><h2>Operator Profile</h2></div>
+                <span class="eyebrow" style="margin:0;">SHEET 01 / 06</span>
+            </div>
+            <div class="operator-grid">
+                <div>
+                    <div class="spec-block">
+                        <div class="spec-row"><span>DESIGNATION</span><span>Full-Stack Developer</span></div>
+                        <div class="spec-row"><span>INSTITUTION</span><span>Nelson Mandela University</span></div>
+                        <div class="spec-row"><span>LOCATION</span><span>Pretoria, South Africa</span></div>
+                        <div class="spec-row"><span>SPECIALTY</span><span>Role-based enterprise systems</span></div>
+                        <div class="spec-row"><span>SIDE PROJECT</span><span>SMC algorithmic trading (Pine Script /
+                        Python)</span></div>
+                    </div>
+                    <p style="margin-top:1.5rem;">I like systems with moving parts — multi-role authorization,
+                        notification services, soft-delete audit chains, PDF generation pipelines. Most of my coursework
+                    projects are built as if they'll actually run in production: proper validation, referential integrity,
+                and UI that doesn't look like a tutorial.</p>
+            </div>
+            <div>
+                <div class="skillmeter"><div class="sm-label"><span>C# / ASP.NET Core</span><span>90%</span></div><div
+                    class="sm-bar"><div class="sm-fill" style="--w:90%"></div></div></div>
+                    <div class="skillmeter"><div class="sm-label"><span>Entity Framework
+                    Core</span><span>85%</span></div><div class="sm-bar"><div class="sm-fill" style="--w:85%"></div></div></div>
+                    <div class="skillmeter"><div class="sm-label"><span>SQL Server</span><span>82%</span></div><div
+                        class="sm-bar"><div class="sm-fill" style="--w:82%"></div></div></div>
+                        <div class="skillmeter"><div class="sm-label"><span>React /
+                        JavaScript</span><span>78%</span></div><div class="sm-bar"><div class="sm-fill"
+                        style="--w:78%"></div></div></div>
+                        <div class="skillmeter"><div class="sm-label"><span>Python</span><span>75%</span></div><div class="sm-bar"><div
+                            class="sm-fill" style="--w:75%"></div></div></div>
+                            <div class="skillmeter"><div class="sm-label"><span>Pine Script
+                            (TradingView)</span><span>80%</span></div><div class="sm-bar"><div class="sm-fill"
+                            style="--w:80%"></div></div></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
-    <div class="module-head" style="margin-top:4rem;">
-      <div><span class="module-tag">MODULE_02B</span><h3>Activity Log</h3></div>
-    </div>
-    <div class="activity-grid">
-      <div class="activity-card"><img src="" id="githubStats" alt="GitHub stats" loading="lazy"><div class="cap">// COMMIT_STATS</div></div>
-      <div class="activity-card"><img src="" id="githubLanguages" alt="Top languages" loading="lazy"><div class="cap">// LANGUAGE_MIX</div></div>
-      <div class="activity-card"><img src="" id="githubStreak" alt="Streak stats" loading="lazy"><div class="cap">// STREAK</div></div>
-    </div>
-    <div class="contrib-wrap">
-      <img id="contrib-graph" src="https://ghchart.rshah.org/4A8FE7/Gomo99" alt="Contribution graph" loading="lazy" onerror="this.style.display='none'; document.getElementById('contrib-fallback').style.display='block';">
-      <p id="contrib-fallback" style="display:none; font-family:var(--font-mono); font-size:.78rem;">Contribution graph unavailable offline. <a href="https://github.com/Gomo99" target="_blank" style="color:var(--line-blue);">View on GitHub &rarr;</a></p>
-    </div>
-    <div style="text-align:center; margin-top:2rem;">
-      <a href="https://github.com/Gomo99" target="_blank" class="btn-console"><i class="fab fa-github"></i> OPEN_REPOSITORY_INDEX</a>
-    </div>
-  </div>
-</section>
+            <!-- MODULE 02: ARCHITECTURE -->
+            <section class="section section-animate" id="architecture">
+                <div class="container">
+                    <div class="module-head">
+                        <div><span class="module-tag">MODULE_02</span><h2>System Architecture</h2></div>
+                        <span class="eyebrow" style="margin:0;">SHEET 02 / 06</span>
+                    </div>
+                    <p style="max-width:640px; margin-bottom:2rem;">The layered pattern I default to for enterprise coursework,
+                    plus the parallel track I run for trading systems.</p>
+                    <div class="arch-wrap">
+                        <svg viewBox="0 0 900 300" xmlns="http://www.w3.org/2000/svg">
+                            <!-- client -->
+                            <rect class="arch-box" x="40" y="30" width="200" height="60" />
+                            <text class="arch-label" x="140" y="55" text-anchor="middle">CLIENT LAYER</text>
+                            <text class="arch-sub" x="140" y="75" text-anchor="middle">React / Razor Views</text>
+                            <!-- api -->
+                            <rect class="arch-box" x="40" y="120" width="200" height="60" />
+                            <text class="arch-label" x="140" y="145" text-anchor="middle">API / MVC LAYER</text>
+                            <text class="arch-sub" x="140" y="165" text-anchor="middle">ASP.NET Core, C#</text>
+                            <!-- data -->
+                            <rect class="arch-box" x="40" y="210" width="200" height="60" />
+                            <text class="arch-label" x="140" y="235" text-anchor="middle">DATA LAYER</text>
+                            <text class="arch-sub" x="140" y="255" text-anchor="middle">EF Core / SQL Server</text>
+                            <!-- connecting lines -->
+                            <line class="arch-line" x1="140" y1="90" x2="140" y2="120" />
+                            <line class="arch-line" x1="140" y1="180" x2="140" y2="210" />
+                            <circle class="arch-dot" cx="140" cy="90" r="3" />
+                            <circle class="arch-dot" cx="140" cy="180" r="3" />
+                            <!-- cross services -->
+                            <rect class="arch-box" x="320" y="75" width="200" height="60" />
+                            <text class="arch-label" x="420" y="100" text-anchor="middle">NOTIFICATIONS</text>
+                            <text class="arch-sub" x="420" y="120" text-anchor="middle">SignalR / polling bell</text>
+                            <rect class="arch-box" x="320" y="165" width="200" height="60" />
+                            <text class="arch-label" x="420" y="190" text-anchor="middle">RBAC / AUTH</text>
+                            <text class="arch-sub" x="420" y="210" text-anchor="middle">Multi-role authorization</text>
+                            <line class="arch-line-active" x1="240" y1="105" x2="320" y2="105" />
+                            <line class="arch-line-active" x1="240" y1="195" x2="320" y2="195" />
+                            <!-- trading track -->
+                            <rect class="arch-box" x="600" y="30" width="240" height="60" />
+                            <text class="arch-label" x="720" y="55" text-anchor="middle">MARKET DATA</text>
+                            <text class="arch-sub" x="720" y="75" text-anchor="middle">MetaTrader 5 feed</text>
+                            <rect class="arch-box" x="600" y="120" width="240" height="60" />
+                            <text class="arch-label" x="720" y="145" text-anchor="middle">SMC STATE MACHINE</text>
+                            <text class="arch-sub" x="720" y="165" text-anchor="middle">Compression / Manipulation /
+                            Distribution</text>
+                            <rect class="arch-box" x="600" y="210" width="240" height="60" />
+                            <text class="arch-label" x="720" y="235" text-anchor="middle">EXECUTION</text>
+                            <text class="arch-sub" x="720" y="255" text-anchor="middle">Python bot, PyQt5 dashboard</text>
+                            <line class="arch-line" x1="720" y1="90" x2="720" y2="120" />
+                            <line class="arch-line" x1="720" y1="180" x2="720" y2="210" />
+                            <circle class="arch-dot" cx="720" cy="90" r="3" />
+                            <circle class="arch-dot" cx="720" cy="180" r="3" />
+                            <text class="arch-sub" x="450" y="285" text-anchor="middle"
+                            style="letter-spacing:.08em;">FIG. 02 — DUAL TRACK: ENTERPRISE SYSTEMS (LEFT) / ALGORITHMIC
+                        TRADING (RIGHT)</text>
+                    </svg>
+                </div>
 
-<!-- MODULE 03: DEPLOYED SYSTEMS / PROJECTS -->
-<section class="section section-animate" id="systems">
-  <div class="container">
-    <div class="module-head">
-      <div><span class="module-tag">MODULE_03</span><h2>Deployed Systems</h2></div>
-      <span class="eyebrow" style="margin:0;">SHEET 03 / 06</span>
-    </div>
+                <div class="module-head" style="margin-top:4rem;">
+                    <div><span class="module-tag">MODULE_02B</span><h3>Activity Log</h3></div>
+                </div>
+                <div class="activity-grid">
+                    <div class="activity-card">
+                        <img src="" id="githubStats" alt="GitHub stats" loading="lazy"
+                        onerror="this.style.display='none';this.nextElementSibling.classList.add('visible');">
+                        <div class="stats-placeholder" id="ghStatsFallback">
+                            <i class="fab fa-github"></i> Stats API unavailable<br>
+                            <a href="https://github.com/Gomo99" target="_blank" rel="noopener">View on GitHub →</a>
+                        </div>
+                        <div class="cap">// COMMIT_STATS</div>
+                    </div>
+                    <div class="activity-card">
+                        <img src="" id="githubLanguages" alt="Top languages" loading="lazy"
+                        onerror="this.style.display='none';this.nextElementSibling.classList.add('visible');">
+                        <div class="stats-placeholder" id="ghLangFallback">
+                            <i class="fas fa-code"></i> Language data unavailable<br>
+                            <a href="https://github.com/Gomo99" target="_blank" rel="noopener">View on GitHub →</a>
+                        </div>
+                        <div class="cap">// LANGUAGE_MIX</div>
+                    </div>
+                    <div class="activity-card">
+                        <img src="" id="githubStreak" alt="Streak stats" loading="lazy"
+                        onerror="this.style.display='none';this.nextElementSibling.classList.add('visible');">
+                        <div class="stats-placeholder" id="ghStreakFallback">
+                            <i class="fas fa-fire"></i> Streak data unavailable<br>
+                            <a href="https://github.com/Gomo99" target="_blank" rel="noopener">View on GitHub →</a>
+                        </div>
+                        <div class="cap">// STREAK</div>
+                    </div>
+                </div>
+                <div class="contrib-wrap">
+                    <img id="contrib-graph" src="" alt="Contribution graph" loading="lazy"
+                    onerror="this.style.display='none';document.getElementById('contribFallback').classList.add('visible');">
+                    <div class="contrib-fallback" id="contribFallback">
+                        <p>Contribution graph unavailable (API may be rate-limited).</p>
+                        <p><a href="https://github.com/Gomo99" target="_blank" rel="noopener">View full activity on GitHub
+                        →</a></p>
+                    </div>
+                </div>
+                <div style="text-align:center; margin-top:2rem;">
+                    <a href="https://github.com/Gomo99" target="_blank" rel="noopener" class="btn-console"><i
+                        class="fab fa-github"></i> OPEN_REPOSITORY_INDEX</a>
+                    </div>
+                </div>
+            </section>
 
-    <div class="sheet">
-      <div class="sheet-titleblock">
-        <div><h3>Ward Management System</h3><span class="sheet-type">HOSPITAL OPERATIONS PLATFORM</span></div>
-        <span class="sheet-status">SHIPPED — COURSEWORK</span>
-      </div>
-      <div class="sheet-body">
-        <div>
-          <p>An ASP.NET Core MVC platform coordinating hospital ward operations across eleven distinct roles. Includes full validation and error-handling passes across every controller, plus Razor-based email notification templates.</p>
-          <div class="sheet-tags"><span>ASP.NET Core MVC</span><span>C#</span><span>Entity Framework</span><span>SQL Server</span><span>Razor</span></div>
-        </div>
-        <div class="sheet-specs">
-          <div class="spec-row"><span class="k">ROLES</span><span class="v">11</span></div>
-          <div class="spec-row"><span class="k">SUBSYSTEMS</span><span class="v">Ward ops, notifications</span></div>
-          <div class="spec-row"><span class="k">FOCUS</span><span class="v">Validation & error handling</span></div>
-        </div>
-      </div>
-    </div>
+            <!-- MODULE 03: DEPLOYED SYSTEMS / PROJECTS -->
+            <section class="section section-animate" id="systems">
+                <div class="container">
+                    <div class="module-head">
+                        <div><span class="module-tag">MODULE_03</span><h2>Deployed Systems</h2></div>
+                        <span class="eyebrow" style="margin:0;">SHEET 03 / 06</span>
+                    </div>
 
-    <div class="sheet">
-      <div class="sheet-titleblock">
-        <div><h3>ONP400 Lab Test Request System</h3><span class="sheet-type">LABORATORY MANAGEMENT SYSTEM</span></div>
-        <span class="sheet-status">SHIPPED — COURSEWORK</span>
-      </div>
-      <div class="sheet-body">
-        <div>
-          <p>Manages laboratory test requests across manager, doctor, and lab technician roles &mdash; sample type CRUD, stock adjustment hardening, collision-safe order numbering, referential integrity guards, and PDF attachment handling.</p>
-          <div class="sheet-tags"><span>ASP.NET Core MVC</span><span>C#</span><span>Entity Framework Core</span><span>PDF Generation</span></div>
-        </div>
-        <div class="sheet-specs">
-          <div class="spec-row"><span class="k">CONTROLLERS</span><span class="v">Manager, Doctor, Technician</span></div>
-          <div class="spec-row"><span class="k">HARDENING</span><span class="v">Stock, order numbers, refs</span></div>
-          <div class="spec-row"><span class="k">STATUS</span><span class="v">Spec-audit patched</span></div>
-        </div>
-      </div>
-    </div>
+                    <div class="sheet">
+                        <div class="sheet-titleblock">
+                            <div><h3>Ward Management System</h3><span class="sheet-type">HOSPITAL OPERATIONS
+                            PLATFORM</span></div>
+                            <span class="sheet-status">SHIPPED — COURSEWORK</span>
+                        </div>
+                        <div class="sheet-body">
+                            <div>
+                                <p>An ASP.NET Core MVC platform coordinating hospital ward operations across eleven distinct
+                                    roles. Includes full validation and error-handling passes across every controller, plus
+                                Razor-based email notification templates.</p>
+                                <div class="sheet-tags"><span>ASP.NET Core MVC</span><span>C#</span><span>Entity
+                                Framework</span><span>SQL Server</span><span>Razor</span></div>
+                            </div>
+                            <div class="sheet-specs">
+                                <div class="spec-row"><span class="k">ROLES</span><span class="v">11</span></div>
+                                <div class="spec-row"><span class="k">SUBSYSTEMS</span><span class="v">Ward ops,
+                                notifications</span></div>
+                                <div class="spec-row"><span class="k">FOCUS</span><span class="v">Validation & error
+                                handling</span></div>
+                            </div>
+                        </div>
+                    </div>
 
-    <div class="sheet">
-      <div class="sheet-titleblock">
-        <div><h3>SMC Money Maker Indicator</h3><span class="sheet-type">ALGORITHMIC TRADING SYSTEM</span></div>
-        <span class="sheet-status">IN DEVELOPMENT</span>
-      </div>
-      <div class="sheet-body">
-        <div>
-          <p>A Pine Script v6 Smart Money Concepts indicator built around a three-phase state machine &mdash; Compression, Manipulation, Distribution &mdash; with BSL/SSL liquidity pool zones, order block detection, FVG tracking, and pivot support/resistance. Currently being ported to Python for live execution against MetaTrader 5.</p>
-          <div class="sheet-tags"><span>Pine Script v6</span><span>Python</span><span>PyQt5</span><span>MetaTrader 5</span></div>
-        </div>
-        <div class="sheet-specs">
-          <div class="spec-row"><span class="k">STATE MACHINE</span><span class="v">3-phase (C/M/D)</span></div>
-          <div class="spec-row"><span class="k">DETECTS</span><span class="v">Order blocks, FVGs, sweeps</span></div>
-          <div class="spec-row"><span class="k">NEXT</span><span class="v">Live execution bot</span></div>
-        </div>
-      </div>
-    </div>
+                    <div class="sheet">
+                        <div class="sheet-titleblock">
+                            <div><h3>ONP400 Lab Test Request System</h3><span class="sheet-type">LABORATORY MANAGEMENT
+                            SYSTEM</span></div>
+                            <span class="sheet-status">SHIPPED — COURSEWORK</span>
+                        </div>
+                        <div class="sheet-body">
+                            <div>
+                                <p>Manages laboratory test requests across manager, doctor, and lab technician roles — sample
+                                    type CRUD, stock adjustment hardening, collision-safe order numbering, referential integrity
+                                guards, and PDF attachment handling.</p>
+                                <div class="sheet-tags"><span>ASP.NET Core MVC</span><span>C#</span><span>Entity Framework
+                                Core</span><span>PDF Generation</span></div>
+                            </div>
+                            <div class="sheet-specs">
+                                <div class="spec-row"><span class="k">CONTROLLERS</span><span class="v">Manager, Doctor,
+                                Technician</span></div>
+                                <div class="spec-row"><span class="k">HARDENING</span><span class="v">Stock, order numbers,
+                                refs</span></div>
+                                <div class="spec-row"><span class="k">STATUS</span><span class="v">Spec-audit patched</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-    <div class="sheet">
-      <div class="sheet-titleblock">
-        <div><h3>Ibhayi Pharmacy Management System</h3><span class="sheet-type">RETAIL / POS PLATFORM</span></div>
-        <span class="sheet-status">SHIPPED — COURSEWORK</span>
-      </div>
-      <div class="sheet-body">
-        <div>
-          <p>Extended with a full Cashier / Till Operator role &mdash; payment processing, PDF receipts via Rotativa, and a collection queue &mdash; plus a real-time SignalR notification bell across the platform.</p>
-          <div class="sheet-tags"><span>ASP.NET Core MVC</span><span>SignalR</span><span>Rotativa PDF</span><span>C#</span></div>
-        </div>
-        <div class="sheet-specs">
-          <div class="spec-row"><span class="k">ADDED ROLE</span><span class="v">Cashier / Till Operator</span></div>
-          <div class="spec-row"><span class="k">REAL-TIME</span><span class="v">SignalR notifications</span></div>
-          <div class="spec-row"><span class="k">OUTPUT</span><span class="v">PDF receipts</span></div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+                    <div class="sheet">
+                        <div class="sheet-titleblock">
+                            <div><h3>SMC Money Maker Indicator</h3><span class="sheet-type">ALGORITHMIC TRADING
+                            SYSTEM</span></div>
+                            <span class="sheet-status">IN DEVELOPMENT</span>
+                        </div>
+                        <div class="sheet-body">
+                            <div>
+                                <p>A Pine Script v6 Smart Money Concepts indicator built around a three-phase state machine —
+                                    Compression, Manipulation, Distribution — with BSL/SSL liquidity pool zones, order block
+                                    detection, FVG tracking, and pivot support/resistance. Currently being ported to Python for
+                                live execution against MetaTrader 5.</p>
+                                <div class="sheet-tags"><span>Pine Script v6</span><span>Python</span><span>PyQt5</span><span>MetaTrader
+                                5</span></div>
+                            </div>
+                            <div class="sheet-specs">
+                                <div class="spec-row"><span class="k">STATE MACHINE</span><span class="v">3-phase
+                                (C/M/D)</span></div>
+                                <div class="spec-row"><span class="k">DETECTS</span><span class="v">Order blocks, FVGs,
+                                sweeps</span></div>
+                                <div class="spec-row"><span class="k">NEXT</span><span class="v">Live execution bot</span></div>
+                            </div>
+                        </div>
+                    </div>
 
-<!-- MODULE 04: OPERATIONAL LOG / EXPERIENCE -->
-<section class="section section-animate" id="log">
-  <div class="container">
-    <div class="module-head">
-      <div><span class="module-tag">MODULE_04</span><h2>Operational Log</h2></div>
-      <span class="eyebrow" style="margin:0;">SHEET 04 / 06</span>
-    </div>
-    <div class="log">
-      <div class="log-entry">
-        <div class="log-time mono"><span class="log-prompt">&gt;</span> 2024 — PRESENT</div>
-        <div>
-          <h4>Full-Stack Developer</h4>
-          <span class="log-role">Academic + independent systems</span>
-          <p>Shipping role-based enterprise platforms end-to-end: schema design, REST/MVC APIs, authentication, and UI. Running a parallel track building algorithmic SMC trading tools in Pine Script and Python.</p>
-        </div>
-      </div>
-      <div class="log-entry">
-        <div class="log-time mono"><span class="log-prompt">&gt;</span> 2022 — 2024</div>
-        <div>
-          <h4>Frontend & Systems Foundations</h4>
-          <span class="log-role">Nelson Mandela University coursework</span>
-          <p>Built responsive interfaces and reusable components while establishing patterns around RBAC, soft deletes, and notification services now reused across every project.</p>
-        </div>
-      </div>
-      <div class="log-entry">
-        <div class="log-time mono"><span class="log-prompt">&gt;</span> 2017 — 2019</div>
-        <div>
-          <h4>Web Development Foundations</h4>
-          <span class="log-role">Self-directed learning</span>
-          <p>Learned core web technologies and software architecture patterns through hands-on projects, laying the groundwork for later full-stack work.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+                    <div class="sheet">
+                        <div class="sheet-titleblock">
+                            <div><h3>Ibhayi Pharmacy Management System</h3><span class="sheet-type">RETAIL / POS
+                            PLATFORM</span></div>
+                            <span class="sheet-status">SHIPPED — COURSEWORK</span>
+                        </div>
+                        <div class="sheet-body">
+                            <div>
+                                <p>Extended with a full Cashier / Till Operator role — payment processing, PDF receipts via
+                                    Rotativa, and a collection queue — plus a real-time SignalR notification bell across the
+                                platform.</p>
+                                <div class="sheet-tags"><span>ASP.NET Core MVC</span><span>SignalR</span><span>Rotativa
+                                PDF</span><span>C#</span></div>
+                            </div>
+                            <div class="sheet-specs">
+                                <div class="spec-row"><span class="k">ADDED ROLE</span><span class="v">Cashier / Till
+                                Operator</span></div>
+                                <div class="spec-row"><span class="k">REAL-TIME</span><span class="v">SignalR
+                                notifications</span></div>
+                                <div class="spec-row"><span class="k">OUTPUT</span><span class="v">PDF receipts</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
-<!-- MODULE 05: UPLINK / CONTACT -->
-<section class="section section-animate" id="uplink">
-  <div class="container">
-    <div class="module-head">
-      <div><span class="module-tag">MODULE_05</span><h2>Open Uplink</h2></div>
-      <span class="eyebrow" style="margin:0;">SHEET 05 / 06</span>
-    </div>
-    <div class="uplink-grid">
-      <div class="uplink-panel">
-        <p style="margin-bottom:1.2rem;">Open to junior, graduate, or internship roles in frontend or full-stack development. Fastest way to reach me is below.</p>
-        <div class="channel-row"><i class="fas fa-envelope"></i><a href="mailto:gomolemomogale102@gmail.com">gomolemomogale102@gmail.com</a></div>
-        <div class="channel-row"><i class="fab fa-github"></i><a href="https://github.com/Gomo99" target="_blank" rel="noopener">github.com/Gomo99</a></div>
-        <div class="channel-row"><i class="fab fa-linkedin-in"></i><a href="https://www.linkedin.com/in/gomolemo-mogale-a4b4b81a3/" target="_blank" rel="noopener">linkedin.com/in/gomolemo-mogale</a></div>
-        <div class="channel-row"><i class="fab fa-whatsapp"></i><a href="https://wa.me/27765817320?text=Hi%20Gomolemo%2C%20I%20saw%20your%20portfolio%20and%20would%20love%20to%20connect!" target="_blank" rel="noopener">WhatsApp direct line</a></div>
-      </div>
-      <div>
-        <div id="formStatus" class="status-message"><i class="fas fa-info-circle"></i><span id="formMessage"></span></div>
-        <form id="contactForm">
-          <div class="form-group"><label for="name">NAME</label><input type="text" class="form-control" id="name" name="name" placeholder="your_name" required></div>
-          <div class="form-group"><label for="email">EMAIL</label><input type="email" class="form-control" id="email" name="email" placeholder="you@domain.com" required></div>
-          <div class="form-group"><label for="subject">SUBJECT</label><input type="text" class="form-control" id="subject" name="subject" placeholder="reason_for_contact" required></div>
-          <div class="form-group"><label for="message">MESSAGE</label><textarea class="form-control" id="message" name="message" placeholder="type message..." required minlength="10"></textarea></div>
-          <button type="submit" class="btn-console filled" id="submitBtn" style="width:100%; justify-content:center;">
-            <span id="submitText">TRANSMIT_MESSAGE</span>
-            <span id="submitSpinner" class="spinner" style="display:none;"></span>
-          </button>
-        </form>
-      </div>
-    </div>
-  </div>
-</section>
+            <!-- MODULE 04: OPERATIONAL LOG / EXPERIENCE -->
+            <section class="section section-animate" id="log">
+                <div class="container">
+                    <div class="module-head">
+                        <div><span class="module-tag">MODULE_04</span><h2>Operational Log</h2></div>
+                        <span class="eyebrow" style="margin:0;">SHEET 04 / 06</span>
+                    </div>
+                    <div class="log">
+                        <div class="log-entry">
+                            <div class="log-time mono"><span class="log-prompt">&gt;</span> 2024 — PRESENT</div>
+                            <div>
+                                <h4>Full-Stack Developer</h4>
+                                <span class="log-role">Academic + independent systems</span>
+                                <p>Shipping role-based enterprise platforms end-to-end: schema design, REST/MVC APIs,
+                                    authentication, and UI. Running a parallel track building algorithmic SMC trading tools in
+                                Pine Script and Python.</p>
+                            </div>
+                        </div>
+                        <div class="log-entry">
+                            <div class="log-time mono"><span class="log-prompt">&gt;</span> 2022 — 2024</div>
+                            <div>
+                                <h4>Frontend & Systems Foundations</h4>
+                                <span class="log-role">Nelson Mandela University coursework</span>
+                                <p>Built responsive interfaces and reusable components while establishing patterns around RBAC,
+                                    soft deletes, and notification services now reused across every project.</p>
+                                </div>
+                            </div>
+                            <div class="log-entry">
+                                <div class="log-time mono"><span class="log-prompt">&gt;</span> 2017 — 2019</div>
+                                <div>
+                                    <h4>Web Development Foundations</h4>
+                                    <span class="log-role">Self-directed learning</span>
+                                    <p>Learned core web technologies and software architecture patterns through hands-on projects,
+                                    laying the groundwork for later full-stack work.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
 
-<!-- FOOTER / TITLE BLOCK -->
-<footer>
-  <div class="container">
-    <div class="titleblock-grid">
-      <div><span class="lbl">DOCUMENT</span><span class="val">Gomolemo Mogale — Portfolio</span></div>
-      <div><span class="lbl">DRAWN BY</span><span class="val">G. Mogale</span></div>
-      <div><span class="lbl">REV</span><span class="val" id="revYear">—</span></div>
-      <div><span class="lbl">SHEET</span><span class="val">06 / 06</span></div>
-    </div>
-    <p class="copy">&copy; <span id="currentYear"></span> Gomolemo Mogale · <a href="mailto:gomolemomogale102@gmail.com">gomolemomogale102@gmail.com</a> · <a href="https://github.com/Gomo99" target="_blank">GitHub</a></p>
-  </div>
-</footer>
+                <!-- MODULE 05: UPLINK / CONTACT -->
+                <section class="section section-animate" id="uplink">
+                    <div class="container">
+                        <div class="module-head">
+                            <div><span class="module-tag">MODULE_05</span><h2>Open Uplink</h2></div>
+                            <span class="eyebrow" style="margin:0;">SHEET 05 / 06</span>
+                        </div>
+                        <div class="uplink-grid">
+                            <div class="uplink-panel">
+                                <p style="margin-bottom:1.2rem;">Open to junior, graduate, or internship roles in frontend or
+                                full-stack development. Fastest way to reach me is below.</p>
+                                <div class="channel-row"><i class="fas fa-envelope"></i><a
+                                    href="mailto:gomolemomogale102@gmail.com">gomolemomogale102@gmail.com</a></div>
+                                    <div class="channel-row"><i class="fab fa-github"></i><a href="https://github.com/Gomo99"
+                                        target="_blank" rel="noopener">github.com/Gomo99</a></div>
+                                        <div class="channel-row"><i class="fab fa-linkedin-in"></i><a
+                                            href="https://www.linkedin.com/in/gomolemo-mogale-a4b4b81a3/" target="_blank"
+                                            rel="noopener">linkedin.com/in/gomolemo-mogale</a></div>
+                                            <div class="channel-row"><i class="fab fa-whatsapp"></i><a
+                                                href="https://wa.me/27765817320?text=Hi%20Gomolemo%2C%20I%20saw%20your%20portfolio%20and%20would%20love%20to%20connect!"
+                                                target="_blank" rel="noopener">WhatsApp direct line</a></div>
+                                            </div>
+                                            <div>
+                                                <div id="formStatus" class="status-message"><i class="fas fa-info-circle"></i><span
+                                                id="formMessage"></span></div>
+                                                <form id="contactForm">
+                                                    <div class="form-group"><label for="name">NAME</label><input type="text"
+                                                        class="form-control" id="name" name="name" placeholder="your_name" required>
+                                                    </div>
+                                                    <div class="form-group"><label for="email">EMAIL</label><input type="email"
+                                                        class="form-control" id="email" name="email" placeholder="you@domain.com"
+                                                    required></div>
+                                                    <div class="form-group"><label for="subject">SUBJECT</label><input type="text"
+                                                        class="form-control" id="subject" name="subject"
+                                                        placeholder="reason_for_contact" required></div>
+                                                        <div class="form-group"><label for="message">MESSAGE</label><textarea
+                                                            class="form-control" id="message" name="message" placeholder="type message..."
+                                                        required minlength="10"></textarea></div>
+                                                        <button type="submit" class="btn-console filled" id="submitBtn"
+                                                        style="width:100%; justify-content:center;">
+                                                        <span id="submitText">TRANSMIT_MESSAGE</span>
+                                                        <span id="submitSpinner" class="spinner" style="display:none;"></span>
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>
 
-<button class="back-to-top" id="backToTop" aria-label="Back to top"><i class="fas fa-arrow-up"></i></button>
-<a href="https://wa.me/27765817320?text=Hi%20Gomolemo%2C%20I%20saw%20your%20portfolio%20and%20would%20love%20to%20connect!" target="_blank" rel="noopener" class="whatsapp-float" title="Chat on WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                                <!-- FOOTER / TITLE BLOCK -->
+                                <footer>
+                                    <div class="container">
+                                        <div class="titleblock-grid">
+                                            <div><span class="lbl">DOCUMENT</span><span class="val">Gomolemo Mogale — Portfolio</span></div>
+                                            <div><span class="lbl">DRAWN BY</span><span class="val">G. Mogale</span></div>
+                                            <div><span class="lbl">REV</span><span class="val" id="revYear">—</span></div>
+                                            <div><span class="lbl">SHEET</span><span class="val">06 / 06</span></div>
+                                        </div>
+                                        <p class="copy">&copy; <span id="currentYear"></span> Gomolemo Mogale · <a
+                                            href="mailto:gomolemomogale102@gmail.com">gomolemomogale102@gmail.com</a> · <a
+                                        href="https://github.com/Gomo99" target="_blank" rel="noopener">GitHub</a></p>
+                                    </div>
+                                </footer>
 
-<script>
-/* ===== BOOT SEQUENCE ===== */
-const bootLines = [
-  '&gt; BOOTING PORTFOLIO_OS v3.1 ...',
-  '&gt; LOADING MODULES: OPERATOR, ARCHITECTURE, SYSTEMS, LOG, UPLINK',
-  '&gt; MOUNTING STACK: React / ASP.NET Core / C# / SQL Server / Python',
-  '&gt; RUNNING INTEGRITY CHECK ... <span class="ok">OK</span>',
-  '&gt; STATUS: <span class="ok">OPERATIONAL</span>',
-];
-const bootEl = document.getElementById('boot');
-const bootLinesEl = document.getElementById('boot-lines');
-const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+                                <button class="back-to-top" id="backToTop" aria-label="Back to top"><i
+                                class="fas fa-arrow-up"></i></button>
+                                <a href="https://wa.me/27765817320?text=Hi%20Gomolemo%2C%20I%20saw%20your%20portfolio%20and%20would%20love%20to%20connect!"
+                                target="_blank" rel="noopener" class="whatsapp-float" title="Chat on WhatsApp"><i
+                            class="fab fa-whatsapp"></i></a>
 
-function runBoot(){
-  if (reducedMotion) { bootEl.classList.add('hidden'); return; }
-  bootLinesEl.innerHTML = bootLines.map(l => `<div class="ln">${l}</div>`).join('');
-  const lns = bootLinesEl.querySelectorAll('.ln');
-  lns.forEach((ln, i) => setTimeout(() => ln.classList.add('show'), i * 380));
-  setTimeout(() => bootEl.classList.add('hidden'), lns.length * 380 + 500);
-}
-document.getElementById('boot-skip').addEventListener('click', () => bootEl.classList.add('hidden'));
-document.addEventListener('keydown', e => { if (e.key === 'Escape') bootEl.classList.add('hidden'); });
-runBoot();
+                            <script>
+                                (function() {
+                                    /* ===== FILE PROTOCOL DETECTION ===== */
+                                    if (window.location.protocol === 'file:') {
+                                        const fw = document.getElementById('fileWarning');
+                                        fw.classList.add('visible');
+                                        document.getElementById('fwClose').addEventListener('click', () => fw.style.display = 'none');
+                                        // Push header down
+                                        const header = document.getElementById('header');
+                                        header.style.top = fw.offsetHeight + 'px';
+                                        // Recalculate on resize
+                                        window.addEventListener('resize', () => {
+                                            if (fw.style.display !== 'none') {
+                                                header.style.top = fw.offsetHeight + 'px';
+                                            }
+                                        });
+                                    }
 
-/* ===== PRINT MODE TOGGLE (blueprint negative/positive) ===== */
-const printToggle = document.getElementById('printToggle');
-const printLabel = document.getElementById('printLabel');
-const htmlEl = document.documentElement;
-printToggle.addEventListener('click', () => {
-  const next = htmlEl.getAttribute('data-print') === 'negative' ? 'positive' : 'negative';
-  htmlEl.setAttribute('data-print', next);
-  printLabel.textContent = next.toUpperCase();
-});
+                                    /* ===== BOOT SEQUENCE ===== */
+                                    const bootLines = [
+                                        '> BOOTING PORTFOLIO_OS v3.1 ...',
+                                        '> LOADING MODULES: OPERATOR, ARCHITECTURE, SYSTEMS, LOG, UPLINK',
+                                        '> MOUNTING STACK: React / ASP.NET Core / C# / SQL Server / Python',
+                                        '> RUNNING INTEGRITY CHECK ... <span class="ok">OK</span>',
+                                        '> STATUS: <span class="ok">OPERATIONAL</span>',
+                                    ];
+                                    const bootEl = document.getElementById('boot');
+                                    const bootLinesEl = document.getElementById('boot-lines');
+                                    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-/* ===== ROLE LINE TYPING ===== */
-const roles = ['full-stack systems engineer','ASP.NET Core / React developer','SMC algorithmic trading builder','role-based systems architect'];
-let rIdx = 0, rChar = 0, rDeleting = false;
-const roleEl = document.getElementById('roleLine');
-function typeRole(){
-  const full = '&gt; ' + roles[rIdx];
-  const visible = rDeleting ? full.slice(0, rChar--) : full.slice(0, rChar++);
-  roleEl.innerHTML = visible + '<span class="cursor-blink"></span>';
-  if (!rDeleting && rChar > full.length) { rDeleting = true; setTimeout(typeRole, 1400); return; }
-  if (rDeleting && rChar < 4) { rDeleting = false; rChar = 4; rIdx = (rIdx + 1) % roles.length; }
-  setTimeout(typeRole, rDeleting ? 35 : 65);
-}
-setTimeout(typeRole, 1900);
+                                    function runBoot() {
+                                        if (reducedMotion) { bootEl.classList.add('hidden'); return; }
+                                        bootLinesEl.innerHTML = bootLines.map(l => `<div class="ln">${l}</div>`).join('');
+                                        const lns = bootLinesEl.querySelectorAll('.ln');
+                                        lns.forEach((ln, i) => setTimeout(() => ln.classList.add('show'), i * 380));
+                                        setTimeout(() => bootEl.classList.add('hidden'), lns.length * 380 + 500);
+                                    }
+                                    document.getElementById('boot-skip').addEventListener('click', () => bootEl.classList.add(
+                                        'hidden'));
+                                    document.addEventListener('keydown', e => { if (e.key === 'Escape') bootEl.classList.add(
+                                        'hidden'); });
+                                    runBoot();
 
-/* ===== SCROLL REVEAL ===== */
-const revealObs = new IntersectionObserver(entries => {
-  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in-view'); revealObs.unobserve(e.target); } });
-}, { threshold: 0.08, rootMargin: '0px 0px -60px 0px' });
-document.querySelectorAll('.section-animate').forEach(el => revealObs.observe(el));
+                                    /* ===== PRINT MODE TOGGLE ===== */
+                                    const printToggle = document.getElementById('printToggle');
+                                    const printLabel = document.getElementById('printLabel');
+                                    const htmlEl = document.documentElement;
+                                    printToggle.addEventListener('click', () => {
+                                        const next = htmlEl.getAttribute('data-print') === 'negative' ? 'positive' :
+                                        'negative';
+                                        htmlEl.setAttribute('data-print', next);
+                                        printLabel.textContent = next.toUpperCase();
+                                        // Reload GitHub stats with new theme after a short delay
+                                        setTimeout(loadGithubStats, 100);
+                                    });
 
-/* ===== SKILL METERS ===== */
-const skillObs = new IntersectionObserver(entries => {
-  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('animated'); skillObs.unobserve(e.target); } });
-}, { threshold: 0.4 });
-document.querySelectorAll('.sm-fill').forEach(el => skillObs.observe(el));
+                                    /* ===== ROLE LINE TYPING ===== */
+                                    const roles = ['full-stack systems engineer', 'ASP.NET Core / React developer',
+                                        'SMC algorithmic trading builder', 'role-based systems architect'
+                                    ];
+                                    let rIdx = 0,
+                                        rChar = 0,
+                                        rDeleting = false;
+                                    const roleEl = document.getElementById('roleLine');
 
-/* ===== GITHUB STATS ===== */
-function loadGithubStats(){
-  const dark = htmlEl.getAttribute('data-print') !== 'positive';
-  const theme = dark ? 'dark' : 'default';
-  const user = 'Gomo99';
-  const map = {
-    githubStats: `https://github-readme-stats.vercel.app/api?username=${user}&show_icons=true&theme=${theme}&hide_border=true&bg_color=00000000`,
-    githubLanguages: `https://github-readme-stats.vercel.app/api/top-langs/?username=${user}&layout=compact&theme=${theme}&hide_border=true&bg_color=00000000&langs_count=6`,
-    githubStreak: `https://github-readme-streak-stats.herokuapp.com/?user=${user}&theme=${theme}&hide_border=true&background=00000000`
-  };
-  Object.entries(map).forEach(([id, src]) => {
-    const img = document.getElementById(id);
-    if (!img) return;
-    img.onerror = () => { img.style.display = 'none'; };
-    img.src = src;
-  });
-  const contrib = document.getElementById('contrib-graph');
-  if (contrib) contrib.src = `https://ghchart.rshah.org/${dark ? '4A8FE7' : '1E4FA3'}/${user}`;
-}
-loadGithubStats();
-printToggle.addEventListener('click', () => setTimeout(loadGithubStats, 50));
+                                    function typeRole() {
+                                        const full = '> ' + roles[rIdx];
+                                        const visible = rDeleting ? full.slice(0, rChar--) : full.slice(0, rChar++);
+                                        roleEl.innerHTML = visible + '<span class="cursor-blink"></span>';
+                                        if (!rDeleting && rChar > full.length) { rDeleting = true;
+                                            setTimeout(typeRole, 1400); return; }
+                                        if (rDeleting && rChar < 4) { rDeleting = false;
+                                            rChar = 4;
+                                            rIdx = (rIdx + 1) % roles.length; }
+                                        setTimeout(typeRole, rDeleting ? 35 : 65);
+                                    }
+                                    setTimeout(typeRole, 1900);
 
-/* ===== EMAILJS CONTACT FORM ===== */
-const EMAILJS_CONFIG = { PUBLIC_KEY: 'als47SRoORUUq7bCk', SERVICE_ID: 'service_mbb2cqn', TEMPLATE_ID: 'template_543lo9f' };
-class EmailJSManager {
-  constructor(){
-    this.form = document.getElementById('contactForm');
-    this.submitBtn = document.getElementById('submitBtn');
-    this.submitText = document.getElementById('submitText');
-    this.submitSpinner = document.getElementById('submitSpinner');
-    this.formStatus = document.getElementById('formStatus');
-    this.formMessage = document.getElementById('formMessage');
-    emailjs.init(EMAILJS_CONFIG.PUBLIC_KEY);
-    this.form.addEventListener('submit', e => this.handleSubmit(e));
-  }
-  validate(){
-    const name = document.getElementById('name').value.trim();
-    const email = document.getElementById('email').value.trim();
-    const subject = document.getElementById('subject').value.trim();
-    const message = document.getElementById('message').value.trim();
-    if (name.length < 2) return 'Name must be at least 2 characters';
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return 'Please enter a valid email';
-    if (subject.length < 3) return 'Subject must be at least 3 characters';
-    if (message.length < 10) return 'Message must be at least 10 characters';
-    return null;
-  }
-  async handleSubmit(e){
-    e.preventDefault();
-    const err = this.validate();
-    if (err) { this.showMessage(err, 'error'); return; }
-    this.setLoading(true);
-    try {
-      const res = await emailjs.send(EMAILJS_CONFIG.SERVICE_ID, EMAILJS_CONFIG.TEMPLATE_ID, {
-        name: document.getElementById('name').value,
-        email: document.getElementById('email').value,
-        subject: document.getElementById('subject').value,
-        message: document.getElementById('message').value,
-        timestamp: new Date().toLocaleString(), page: window.location.href
-      });
-      if (res.status === 200) { this.showMessage('Message transmitted. I will get back to you soon.', 'success'); this.form.reset(); }
-      else throw new Error();
-    } catch { this.showMessage('Transmission failed. Email me directly at gomolemomogale102@gmail.com', 'error'); }
-    finally { this.setLoading(false); }
-  }
-  setLoading(l){
-    this.submitBtn.disabled = l;
-    this.submitText.textContent = l ? 'TRANSMITTING...' : 'TRANSMIT_MESSAGE';
-    this.submitSpinner.style.display = l ? 'inline-block' : 'none';
-  }
-  showMessage(msg, type){
-    this.formMessage.textContent = msg;
-    this.formStatus.className = `status-message ${type} visible`;
-    if (type === 'success') setTimeout(() => this.formStatus.classList.remove('visible'), 5000);
-  }
-}
-new EmailJSManager();
+                                    /* ===== SCROLL REVEAL ===== */
+                                    const revealObs = new IntersectionObserver(entries => {
+                                        entries.forEach(e => {
+                                            if (e.isIntersecting) { e.target.classList.add('in-view');
+                                                revealObs.unobserve(e.target); }
+                                        });
+                                    }, { threshold: 0.08, rootMargin: '0px 0px -60px 0px' });
+                                    document.querySelectorAll('.section-animate').forEach(el => revealObs.observe(el));
 
-/* ===== NAV / SCROLL UTILITIES ===== */
-document.addEventListener('DOMContentLoaded', () => {
-  document.getElementById('currentYear').textContent = new Date().getFullYear();
-  document.getElementById('revYear').textContent = 'REV.' + new Date().getFullYear();
+                                    /* ===== SKILL METERS ===== */
+                                    const skillObs = new IntersectionObserver(entries => {
+                                        entries.forEach(e => {
+                                            if (e.isIntersecting) { e.target.classList.add('animated');
+                                                skillObs.unobserve(e.target); }
+                                        });
+                                    }, { threshold: 0.4 });
+                                    document.querySelectorAll('.sm-fill').forEach(el => skillObs.observe(el));
 
-  const mobileToggle = document.getElementById('mobileToggle');
-  const nav = document.getElementById('mainNav');
-  mobileToggle.addEventListener('click', () => {
-    nav.classList.toggle('mobile-nav-open');
-    mobileToggle.textContent = nav.classList.contains('mobile-nav-open') ? '[ CLOSE ]' : '[ MENU ]';
-  });
-  document.querySelectorAll('.nav-links a').forEach(a => a.addEventListener('click', () => {
-    nav.classList.remove('mobile-nav-open');
-    mobileToggle.textContent = '[ MENU ]';
-  }));
+                                    /* ===== GITHUB STATS WITH ROBUST FALLBACK ===== */
+                                    function loadGithubStats() {
+                                        const dark = htmlEl.getAttribute('data-print') !== 'positive';
+                                        const theme = dark ? 'dark' : 'default';
+                                        const user = 'Gomo99';
+                                        const cacheBuster = Date.now(); // Prevent stale cache issues
 
-  const backToTop = document.getElementById('backToTop');
-  window.addEventListener('scroll', () => backToTop.classList.toggle('visible', window.scrollY > 400), { passive: true });
-  backToTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+                                        const map = {
+                                            githubStats: {
+                                                src: `https://github-readme-stats.vercel.app/api?username=${user}&show_icons=true&theme=${theme}&hide_border=true&bg_color=00000000&cache_bust=${cacheBuster}`,
+                                                fallbackId: 'ghStatsFallback'
+                                            },
+                                            githubLanguages: {
+                                                src: `https://github-readme-stats.vercel.app/api/top-langs/?username=${user}&layout=compact&theme=${theme}&hide_border=true&bg_color=00000000&langs_count=6&cache_bust=${cacheBuster}`,
+                                                fallbackId: 'ghLangFallback'
+                                            },
+                                            githubStreak: {
+                                                src: `https://github-readme-streak-stats.herokuapp.com/?user=${user}&theme=${theme}&hide_border=true&background=00000000&cache_bust=${cacheBuster}`,
+                                                fallbackId: 'ghStreakFallback'
+                                            }
+                                        };
 
-  document.querySelectorAll('a[href^="#"]').forEach(a => {
-    a.addEventListener('click', e => {
-      const id = a.getAttribute('href'); if (id === '#') return;
-      const t = document.querySelector(id);
-      if (t) { e.preventDefault(); window.scrollTo({ top: t.offsetTop - 70, behavior: 'smooth' }); }
-    });
-  });
+                                        Object.entries(map).forEach(([imgId, data]) => {
+                                            const img = document.getElementById(imgId);
+                                            const fallback = document.getElementById(data.fallbackId);
+                                            if (!img) return;
 
-  const sectionEls = document.querySelectorAll('section[id]');
-  const navA = document.querySelectorAll('.nav-links a');
-  const navObs = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        navA.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + entry.target.id));
-      }
-    });
-  }, { threshold: 0.5 });
-  sectionEls.forEach(s => navObs.observe(s));
-});
-</script>
-</body>
-</html>
+                                            // Reset state
+                                            img.style.display = '';
+                                            if (fallback) fallback.classList.remove('visible');
+
+                                            // Set src
+                                            img.src = data.src;
+
+                                            // If already complete (cached), check naturalWidth
+                                            if (img.complete && img.naturalWidth === 0) {
+                                                img.style.display = 'none';
+                                                if (fallback) fallback.classList.add('visible');
+                                            }
+                                        });
+
+                                        // Contrib graph
+                                        const contrib = document.getElementById('contrib-graph');
+                                        const contribFallback = document.getElementById('contribFallback');
+                                        if (contrib) {
+                                            contrib.style.display = '';
+                                            if (contribFallback) contribFallback.classList.remove('visible');
+                                            contrib.src =
+                                                `https://ghchart.rshah.org/${dark ? '4A8FE7' : '1E4FA3'}/${user}?cache_bust=${cacheBuster}`;
+                                        }
+                                    }
+
+                                    // Initial load
+                                    loadGithubStats();
+
+                                    /* ===== EMAILJS CONTACT FORM ===== */
+                                    const EMAILJS_CONFIG = {
+                                        PUBLIC_KEY: 'als47SRoORUUq7bCk',
+                                        SERVICE_ID: 'service_mbb2cqn',
+                                        TEMPLATE_ID: 'template_543lo9f'
+                                    };
+
+                                    class EmailJSManager {
+                                        constructor() {
+                                            this.form = document.getElementById('contactForm');
+                                            this.submitBtn = document.getElementById('submitBtn');
+                                            this.submitText = document.getElementById('submitText');
+                                            this.submitSpinner = document.getElementById('submitSpinner');
+                                            this.formStatus = document.getElementById('formStatus');
+                                            this.formMessage = document.getElementById('formMessage');
+
+                                            try {
+                                                if (typeof emailjs !== 'undefined') {
+                                                    emailjs.init(EMAILJS_CONFIG.PUBLIC_KEY);
+                                                } else {
+                                                    console.warn('EmailJS SDK not loaded. Contact form will fall back to mailto.');
+                                                }
+                                            } catch (e) {
+                                                console.warn('EmailJS init failed:', e.message);
+                                            }
+
+                                            this.form.addEventListener('submit', e => this.handleSubmit(e));
+                                        }
+                                        validate() {
+                                            const name = document.getElementById('name').value.trim();
+                                            const email = document.getElementById('email').value.trim();
+                                            const subject = document.getElementById('subject').value.trim();
+                                            const message = document.getElementById('message').value.trim();
+                                            if (name.length < 2) return 'Name must be at least 2 characters';
+                                            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
+                                            return 'Please enter a valid email';
+                                            if (subject.length < 3) return 'Subject must be at least 3 characters';
+                                            if (message.length < 10)
+                                            return 'Message must be at least 10 characters';
+                                            return null;
+                                        }
+                                        async handleSubmit(e) {
+                                            e.preventDefault();
+                                            const err = this.validate();
+                                            if (err) { this.showMessage(err, 'error'); return; }
+
+                                            // Check if EmailJS is available
+                                            if (typeof emailjs === 'undefined') {
+                                                // Fallback: open mailto
+                                                const name = document.getElementById('name').value.trim();
+                                                const email = document.getElementById('email').value.trim();
+                                                const subject = document.getElementById('subject').value.trim();
+                                                const message = document.getElementById('message').value.trim();
+                                                const mailto = `mailto:gomolemomogale102@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent('From: ' + name + ' (' + email + ')\n\n' + message)}`;
+                                                window.location.href = mailto;
+                                                this.showMessage(
+                                                    'Opening your default email client as fallback...',
+                                                    'success');
+                                                return;
+                                            }
+
+                                            this.setLoading(true);
+                                            try {
+                                                const res = await emailjs.send(EMAILJS_CONFIG.SERVICE_ID,
+                                                    EMAILJS_CONFIG.TEMPLATE_ID, {
+                                                        name: document.getElementById('name').value,
+                                                        email: document.getElementById('email').value,
+                                                        subject: document.getElementById('subject').value,
+                                                        message: document.getElementById('message').value,
+                                                        timestamp: new Date().toLocaleString(),
+                                                        page: window.location.href
+                                                    });
+                                                if (res.status === 200) {
+                                                    this.showMessage(
+                                                        'Message transmitted. I will get back to you soon.',
+                                                        'success');
+                                                    this.form.reset();
+                                                } else throw new Error('Unexpected status: ' + res.status);
+                                            } catch (ex) {
+                                                console.error('EmailJS error:', ex);
+                                                this.showMessage(
+                                                    'Transmission failed. Email me directly at gomolemomogale102@gmail.com',
+                                                    'error');
+                                            } finally { this.setLoading(false); }
+                                        }
+                                        setLoading(l) {
+                                            this.submitBtn.disabled = l;
+                                            this.submitText.textContent = l ? 'TRANSMITTING...' :
+                                            'TRANSMIT_MESSAGE';
+                                            this.submitSpinner.style.display = l ? 'inline-block' : 'none';
+                                        }
+                                        showMessage(msg, type) {
+                                            this.formMessage.textContent = msg;
+                                            this.formStatus.className =
+                                            `status-message ${type} visible`;
+                                            if (type === 'success') setTimeout(() => this.formStatus
+                                                .classList.remove('visible'), 6000);
+                                        }
+                                    }
+                                    new EmailJSManager();
+
+                                    /* ===== NAV / SCROLL UTILITIES ===== */
+                                    document.addEventListener('DOMContentLoaded', () => {
+                                        document.getElementById('currentYear').textContent = new Date()
+                                            .getFullYear();
+                                        document.getElementById('revYear').textContent = 'REV.' + new Date()
+                                            .getFullYear();
+
+                                        const mobileToggle = document.getElementById('mobileToggle');
+                                        const nav = document.getElementById('mainNav');
+                                        mobileToggle.addEventListener('click', () => {
+                                            nav.classList.toggle('mobile-nav-open');
+                                            mobileToggle.textContent = nav.classList.contains(
+                                                'mobile-nav-open') ? '[ CLOSE ]' : '[ MENU ]';
+                                        });
+                                        document.querySelectorAll('.nav-links a').forEach(a => a
+                                            .addEventListener('click', () => {
+                                                nav.classList.remove('mobile-nav-open');
+                                                mobileToggle.textContent = '[ MENU ]';
+                                            }));
+
+                                        const backToTop = document.getElementById('backToTop');
+                                        window.addEventListener('scroll', () => backToTop.classList
+                                            .toggle('visible', window.scrollY > 400), { passive: true });
+                                        backToTop.addEventListener('click', () => window.scrollTo({ top: 0,
+                                            behavior: 'smooth' }));
+
+                                        document.querySelectorAll('a[href^="#"]').forEach(a => {
+                                            a.addEventListener('click', e => {
+                                                const id = a.getAttribute('href');
+                                                if (id === '#') return;
+                                                const t = document.querySelector(id);
+                                                if (t) {
+                                                    e.preventDefault();
+                                                    window.scrollTo({ top: t.offsetTop - 70,
+                                                        behavior: 'smooth' });
+                                                }
+                                            });
+                                        });
+
+                                        const sectionEls = document.querySelectorAll('section[id]');
+                                        const navA = document.querySelectorAll('.nav-links a');
+                                        const navObs = new IntersectionObserver(entries => {
+                                            entries.forEach(entry => {
+                                                if (entry.isIntersecting) {
+                                                    navA.forEach(a => a.classList.toggle(
+                                                        'active', a.getAttribute('href') ===
+                                                        '#' + entry.target.id));
+                                                }
+                                            });
+                                        }, { threshold: 0.5 });
+                                        sectionEls.forEach(s => navObs.observe(s));
+                                    });
+                                })();
+                            </script>
+                        </body>
+                        </html>
